@@ -53,7 +53,7 @@ namespace GAgent.StandardEvents
                     return atTavern && notTravelling;
                 }
             },
-            new GameAction()
+           new GameAction()
             {
                 ID = "GoMarket",
                 ShowOutcomes = true,

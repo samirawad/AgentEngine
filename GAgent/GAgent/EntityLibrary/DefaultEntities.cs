@@ -44,7 +44,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"confident","hesitant"},
             new List<string>() {"orderly","disorganized"},
             new List<string>() {"responsible","irresponsible"},   
-            new List<string>() {"ambitious","content"},
+            new List<string>() {"ambitious","unambitious"},
             new List<string>() {"disciplined","undisciplined"},
             new List<string>() {"brave","cowardly"},
             // Neuroticism
