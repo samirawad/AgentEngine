@@ -49,8 +49,8 @@ namespace GAgent.StandardEvents
         {
             new Outcome()
             {
-                Description = "Collect memories",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "Collect memories"; },
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "CollectMemories" ? true : false;
                     return valid;
                 },
@@ -75,8 +75,8 @@ namespace GAgent.StandardEvents
                             world.AllOutcomes.Add(new Outcome()
                             {
                                  ID = entityID,
-                                 Description = "view memories of" + currEntity.S["Name"],
-                                 IsValid = (source, parent, entities) =>
+                                 GetDescription = (source, entities) => { return "view memories of" + currEntity.S["Name"]; },
+                                 IsValid = (source, entities) =>
                                  {
                                      bool valid = source.ID == entityID ? true : false;
                                      return valid;
@@ -97,8 +97,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "A friendly occurance",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "A friendly occurance"; },
+                IsValid = (source, entities) => {
                     return source.ID == "FriendEvent00" ? true : false;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -125,8 +125,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "An aggresive occurence observed by multiple parties.",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "An aggresive occurence observed by multiple parties."; },
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "AgressiveEvent00" ? true : false;
                     return valid;
                 },

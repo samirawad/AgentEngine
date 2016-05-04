@@ -90,7 +90,7 @@ namespace GAgent.StandardEvents
             new GameAction()
             {
                 ID = "Travel",
-                ShowOutcomes = false,
+                ShowOutcomes = true,
                 Detail = "an encounter might occur...",
                 Description = "The adventurer travels towards his destination...",
                 IsValid = (world) => { 
@@ -108,8 +108,8 @@ namespace GAgent.StandardEvents
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() { 
             new Outcome()
             {
-                Description = "The player will embark upon his adventure!",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "The player will embark upon his adventure!"; } ,
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "Init" ? true : false;
                     return valid;
                 },
@@ -128,8 +128,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "...A possible encounter?",
-                IsValid = (source, parent,entities) => {
+                GetDescription = (source, entities) => { return "...A possible encounter?";},
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "Travel" ? true : false;
                     return valid;
                 },
@@ -150,8 +150,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "...A safe journey?",
-                IsValid = (source, parent,entities) => {
+                GetDescription = (source, entities) => { return "...A safe journey?"; },
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "Travel" ? true : false;
                     return valid;
                 },
@@ -174,8 +174,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "Player will travel to the tavern.",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "Player will travel to the tavern."; },
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "GoTavern" ? true : false;
                     return valid;
                 },
@@ -194,8 +194,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "A new adventurer is recruited!",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "A new adventurer is recruited!"; },
+                IsValid = (source, entities) => {
                     return source.ID == "Recruit";
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -210,8 +210,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "Player will travel to the temple.",
-                IsValid = (source, parent, entities) => {
+                GetDescription = (source, entities) => { return "Player will travel to the temple."; },
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "GoTemple" ? true : false;
                     return valid;
                 },
@@ -230,8 +230,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                Description = "Player will travel to the market.",
-                IsValid = (source, parent,entities) => {
+                GetDescription = (source, entities) => { return "Player will travel to the market."; } ,
+                IsValid = (source, entities) => {
                     bool valid = source.ID == "GoMarket" ? true : false;
                     return valid;
                 },

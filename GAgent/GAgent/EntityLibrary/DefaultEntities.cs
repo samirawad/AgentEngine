@@ -27,7 +27,7 @@ namespace GAgent.EntityLibrary
         public static List<List<string>> PersonalityTags = new List<List<string>>()
         {
             // Extraversion
-            new List<string>() {"friendly","rude"},   
+            new List<string>() {"warm","aloof"},   
             new List<string>() {"gregarious","shy"},
             new List<string>() {"assertive","meek"},
             new List<string>() {"energetic","leisurely"},
@@ -48,7 +48,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"disciplined","undisciplined"},
             new List<string>() {"brave","cowardly"},
             // Neuroticism
-            new List<string>() {"optimistic","pessimistic"}, // worry about the future
+            new List<string>() {"optimistic","pessimistic"}, // opinion about the future
             new List<string>() {"patient","short-tempered"},
             new List<string>() {"lighthearted","melancholy"},   
             new List<string>() {"shameless","insecure"},
@@ -56,16 +56,16 @@ namespace GAgent.EntityLibrary
             new List<string>() {"composed","overwrought"}, // ability to handle present stress
             // Openness
             new List<string>() {"imaginative","unimaginative"},
-            new List<string>() {"aesthetic","philistine"},
+            new List<string>() {"cultured","uncultured"},
             new List<string>() {"reflective","unreflective"},   
             new List<string>() {"curious","incurious"},
             new List<string>() {"philosophical","realist"},
 
             // Political
-            new List<string>() {"tolerant","bigoted"},
-            new List<string>() {"unconventional","traditional"},
-            new List<string>() {"irreverant","religious"},
-            new List<string>() {"rebellious","loyalist"},
+            new List<string>() {"accepting","bigoted"}, // of other races
+            new List<string>() {"unconventional","traditional"}, // of their origin culture
+            new List<string>() {"irreverant","religious"}, // of religion
+            new List<string>() {"unpatriotic","patriotic"}, // of the establisment 
 
             // Physical Traits 
             new List<string>() {"beautiful","ugly"},
