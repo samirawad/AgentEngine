@@ -15,7 +15,7 @@ namespace GAgent.StandardEvents
             new GameAction()
             {
                 ID = "AgressiveEvent00",
-                Description = "A sample agression event involving 3 entities.",
+                Description = (world) => { return "A sample agression event involving 3 entities."; },
                 IsValid = (world) => {
                     //bool noMemoriesExist = !world.AllEntities.Any(e => e.Memories.Count > 0);
                     //return noMemoriesExist;
@@ -25,7 +25,7 @@ namespace GAgent.StandardEvents
             new GameAction()
             {
                 ID = "FriendEvent00",
-                Description = "A sample friendly event involving 2 entities.",
+                Description = (world) => { return "A sample friendly event involving 2 entities."; },
                 IsValid = (world) => {
                     //bool noMemoriesExist = !world.AllEntities.Any(e => e.Memories.Count > 0);
                     //return noMemoriesExist;'
@@ -35,7 +35,7 @@ namespace GAgent.StandardEvents
             new GameAction()
             {
                 ID = "CollectMemories",
-                Description = "Collect the memories of entities",
+                Description = (world) => { return "Collect the memories of entities"; },
                 IsValid = (world) => { 
                     // valid if entities have memories
                     bool AnEntityHasMemories = world.AllEntities.Any(e => e.HasMemories());
@@ -65,7 +65,7 @@ namespace GAgent.StandardEvents
                             world.AllGameActions.Add(new GameAction()
                                 {
                                      ID = entityID,
-                                     Description = "View "+currEntity.S["Name"],
+                                     Description = (world0) => { return "View " + currEntity.S["Name"]; },
                                      IsValid = (world0) => { return true; }
                                 });
                         }

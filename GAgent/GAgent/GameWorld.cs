@@ -65,7 +65,7 @@ namespace GAgent
                 if(currEvent.IsValid(this))
                 {
                     CurrentValidEvents.Add(Alphabet[keyIndex], currEvent);
-                    sbResult.AppendLine(Alphabet[keyIndex] + ": " + currEvent.Description);
+                    sbResult.AppendLine(Alphabet[keyIndex] + ": " + currEvent.Description(this));
                     keyIndex++;
                 }
             }
@@ -74,7 +74,7 @@ namespace GAgent
 
         public string ListEventOutcomes(char eventKey)
         {
-            return CurrentValidEvents[eventKey].ListOutcomes(AllOutcomes, AllEntities);
+            return CurrentValidEvents[eventKey].ListOutcomes(this, AllOutcomes, AllEntities);
         }
 
         public bool IsEventValid(char eventKey)

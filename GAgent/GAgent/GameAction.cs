@@ -9,6 +9,8 @@ namespace GAgent
     // Holds the function which determines if this event is currently valid
     public delegate bool EventIsValidDelegate(GameWorld world);
 
+    public delegate string EventTextDelegate(GameWorld world);
+
     /*
      * The idea behind a game action is that it's selectable.  It's available based on the state of the game world, and representes a decision point 
      * for the player.
@@ -19,16 +21,16 @@ namespace GAgent
 
         public HashSet<String> Tags;
 
-        public string Description;
+        public EventTextDelegate Description; // This is what is displayed at the selection stage.
 
-        public string Detail;
+        public EventTextDelegate Detail; // When an action is selected, before it is confirmed, more detail is provided here.
 
         public bool ShowOutcomes;
 
         // Is it possible to take this action now?
         public EventIsValidDelegate IsValid;
 
-        public string ListOutcomes(List<Outcome> AllOutcomes, List<GameEntity> AllEntities)
+        public string ListOutcomes(GameWorld world, List<Outcome> AllOutcomes, List<GameEntity> AllEntities)
         {
             // List the possible outcomes for this action
             // We might not want to show all the outcomes, depending on the action.
@@ -43,7 +45,7 @@ namespace GAgent
             }
             else
             {
-                return Detail;
+                return Detail(world);
             }
             return sbOutput.ToString();
         }

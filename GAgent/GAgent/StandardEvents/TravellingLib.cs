@@ -13,7 +13,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "Init",
                 ShowOutcomes = true,
-                Description = "Begin the adventure!",
+                Description = (world) => { return "Begin the adventure!"; },
                 IsValid = (world) => { 
                     // Initialization action. Valid if the player hasn't yet been created.
                     return !world.AllEntities.Any(e => e.S["Name"] == "player");
@@ -23,7 +23,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "GoTavern",
                 ShowOutcomes = true,
-                Description = "Go to the Tavern",
+                Description = (world) => { return "Go to the Tavern"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -40,7 +40,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "Recruit",
                 ShowOutcomes = true,
-                Description = "Recruit a new adventurer",
+                Description = (world) => { return "Recruit a new adventurer"; },
                 IsValid = (world) => {
                     // Valid if the player is at the tavern
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -57,7 +57,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "GoMarket",
                 ShowOutcomes = true,
-                Description = "Go to the Market",
+                Description = (world) => { return "Go to the Market"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -74,7 +74,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "GoTemple",
                 ShowOutcomes = true,
-                Description = "Go to the Temple",
+                Description = (world) => { return "Go to the Temple"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -91,8 +91,8 @@ namespace GAgent.StandardEvents
             {
                 ID = "Travel",
                 ShowOutcomes = true,
-                Detail = "an encounter might occur...",
-                Description = "The adventurer travels towards his destination...",
+                Detail = (world) => { return "an encounter might occur..."; },
+                Description = (world) => { return "The adventurer travels towards his destination..."; },
                 IsValid = (world) => { 
                     // Is valid if the player has a current destination
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -141,8 +141,7 @@ namespace GAgent.StandardEvents
                     }
                     else
                     {
-                        player.S["Encounter"] = "true";
-                    }
+                        player.S["Encounter"] = "true";                    }
                     StringBuilder sbResult = new StringBuilder();
                     sbResult.AppendLine("The adventurer has an encounter on the way to his destination!");
                     return sbResult.ToString();

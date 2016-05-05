@@ -47,9 +47,10 @@ namespace GAgent
                             Console.Clear();
                         }
                     }
-                    else // only one valid event.  Just execute it.
+                    else // only one valid event.  Show description, detail, possible outcomes, then just do it.
                     {
-                        Console.WriteLine(WorldEngine.CurrentValidEvents.First().Value.Description);
+                        Console.WriteLine(WorldEngine.CurrentValidEvents.First().Value.Description(WorldEngine));
+                        Console.WriteLine(WorldEngine.ListEventOutcomes(WorldEngine.CurrentValidEvents.First().Key));
                         Console.WriteLine("--------------------------------------------------------------");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey(true);

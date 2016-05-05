@@ -13,7 +13,7 @@ namespace GAgent.StandardEvents
             {
                 ID = "Encounter",
                 ShowOutcomes = false,
-                Description = "An encounter occurs...",
+                Description = (world) => { return "An encounter occurs..."; },
                 IsValid = (world) => {
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
                     bool hasEncounter = player != null ?
