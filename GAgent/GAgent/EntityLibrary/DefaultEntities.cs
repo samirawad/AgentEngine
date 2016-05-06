@@ -29,7 +29,7 @@ namespace GAgent.EntityLibrary
             // Extraversion
             new List<string>() {"warm","aloof"},   
             new List<string>() {"gregarious","shy"},
-            new List<string>() {"assertive","meek"},
+            new List<string>() {"assertive","unassertive"},
             new List<string>() {"energetic","leisurely"},
             new List<string>() {"adventurous","complacent"},
             new List<string>() {"cheerful","grim"},
@@ -51,7 +51,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"optimistic","pessimistic"}, // opinion about the future
             new List<string>() {"patient","short-tempered"},
             new List<string>() {"lighthearted","melancholy"},   
-            new List<string>() {"shameless","insecure"},
+            new List<string>() {"secure","insecure"},
             new List<string>() {"resolute","wavering"},
             new List<string>() {"composed","overwrought"}, // ability to handle present stress
             // Openness

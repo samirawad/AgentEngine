@@ -45,7 +45,7 @@ namespace GAgent
             }
             else
             {
-                return Detail(world);
+                return Detail != null ? Detail(world) : "";
             }
             return sbOutput.ToString();
         }
