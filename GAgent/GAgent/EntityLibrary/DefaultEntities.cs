@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace GAgent.EntityLibrary
 {
@@ -35,7 +36,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"cheerful","grim"},
             // Agreeableness
             new List<string>() {"trusting","distrustful"},
-            new List<string>() {"candid","guarded"},
+            new List<string>() {"sincere","deceptive"},
             new List<string>() {"altruistic","selfish"},   
             new List<string>() {"cooperative","obstinate"},
             new List<string>() {"modest","boastful"},
@@ -56,16 +57,17 @@ namespace GAgent.EntityLibrary
             new List<string>() {"composed","overwrought"}, // ability to handle present stress
             // Openness
             new List<string>() {"imaginative","unimaginative"},
-            new List<string>() {"cultured","uncultured"},
+            new List<string>() {"cultured","uncultured"}, // appreciative of art
             new List<string>() {"reflective","unreflective"},   
             new List<string>() {"curious","incurious"},
             new List<string>() {"philosophical","realist"},
 
             // Political
             new List<string>() {"accepting","bigoted"}, // of other races
-            new List<string>() {"unconventional","traditional"}, // of their origin culture
+            new List<string>() {"untraditional","traditional"}, // of their origin culture
             new List<string>() {"irreverant","religious"}, // of religion
             new List<string>() {"unpatriotic","patriotic"}, // of the establisment 
+            new List<string>() {"honorable","trecherous"}, // personal code
 
             // Physical Traits 
             new List<string>() {"beautiful","ugly"},
@@ -86,20 +88,38 @@ namespace GAgent.EntityLibrary
             GameEntity newEntity = new GameEntity();
             newEntity.T = new Dictionary<string, HashSet<string>>();
             newEntity.T.Add("Personality", new HashSet<string>());
-            foreach(List<string> currTags in PersonalityTags)
+            // Ensure that the newly generated character has at least 3 traits.
+            while(newEntity.T["Personality"].Count < 3)
             {
-                int roll = rnd.Next(100);
-                if (roll > 90)
+                foreach (List<string> currTags in PersonalityTags)
                 {
-                    string newTrait = currTags.ToArray()[rnd.Next(currTags.Count)];
-                    if (roll > 97) newTrait = "profoundly " + newTrait;
-                    newEntity.T["Personality"].Add(newTrait);
-                }           
+                    int roll = rnd.Next(100);
+                    if (roll > 90)
+                    {
+                        string newTrait = currTags.ToArray()[rnd.Next(currTags.Count)];
+                        if (!newEntity.T["Personality"].Contains(newTrait))
+                        {
+                            if (roll > 97) newTrait = "profoundly " + newTrait;
+                            newEntity.T["Personality"].Add(newTrait);
+                        }
+                    }
+                }
             }
+            
+
+            // Generate name based on gender
+            string gender =  GenderTypes.ToArray()[rnd.Next(GenderTypes.Count)];
+            MarkovNameGenerator nameGenerator = gender == "Male" ?
+                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-male-first.csv"), 2, 1) :
+                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-female-first.csv"), 2, 1);
+            string newName = nameGenerator.NextName;
+
             newEntity.S = new Dictionary<string, string>() { 
                 {"Class", CharacterTypes.ToArray()[rnd.Next(CharacterTypes.Count)]},
-                {"Gender", GenderTypes.ToArray()[rnd.Next(GenderTypes.Count)]}
+                {"Gender", gender},
+                {"Name", newName}
             };
+            
             return newEntity;
         }
 

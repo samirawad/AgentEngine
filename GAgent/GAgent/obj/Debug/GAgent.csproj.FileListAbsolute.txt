@@ -4,3 +4,5 @@ C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\GAgent.pdb
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.csprojResolveAssemblyReference.cache
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.exe
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.pdb
+C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\EntityLibrary\census-dist-female-first.csv
+C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\EntityLibrary\census-dist-male-first.csv

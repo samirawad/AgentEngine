@@ -46,6 +46,7 @@
     <Compile Include="GameAction.cs" />
     <Compile Include="GameEntity.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="MarkovNameGenerator.cs" />
     <Compile Include="Outcome.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="EntityLibrary\census-dist-female-first.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="EntityLibrary\census-dist-male-first.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

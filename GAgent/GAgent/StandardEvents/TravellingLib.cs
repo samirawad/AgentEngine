@@ -200,6 +200,7 @@ namespace GAgent.StandardEvents
                 PerformOutcome = (ref GameWorld world) => {
                     GameEntity newEntity = EntityLibrary.DefaultEntities.GenerateEntity();
                     StringBuilder sbOut = new StringBuilder();
+                    sbOut.AppendLine("Name: " + newEntity.S["Name"]);
                     sbOut.AppendLine("Gender: " + newEntity.S["Gender"]);
                     sbOut.AppendLine("Class: " + newEntity.S["Class"]);
                     sbOut.AppendLine("Personality: " + string.Join(", ", newEntity.T["Personality"].ToArray()));
