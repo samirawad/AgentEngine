@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GAgent.StandardEvents
 {
-    public static class TravelEncountersLib
+    public static class TravelEncounterEvents
     {
         public static List<GameAction> GameEvents = new List<GameAction>() { 
             new GameAction()

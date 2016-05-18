@@ -53,7 +53,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"patient","short-tempered"},
             new List<string>() {"lighthearted","melancholy"},   
             new List<string>() {"secure","insecure"},
-            new List<string>() {"resolute","wavering"},
+            new List<string>() {"strong-willed","weak-willed"},
             new List<string>() {"composed","overwrought"}, // ability to handle present stress
             // Openness
             new List<string>() {"imaginative","unimaginative"},
@@ -119,6 +119,7 @@ namespace GAgent.EntityLibrary
                 {"Gender", gender},
                 {"Name", newName}
             };
+            newEntity.T.Add("Conditions", new HashSet<string>());
             
             return newEntity;
         }

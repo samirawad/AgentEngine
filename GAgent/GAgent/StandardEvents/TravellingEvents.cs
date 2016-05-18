@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GAgent.StandardEvents
 {
-    public static class TravelingLib
+    public static class TravelingEvents
     {
         public static List<GameAction> GameEvents = new List<GameAction>() { 
             new GameAction()
@@ -36,23 +36,7 @@ namespace GAgent.StandardEvents
                     return notAtCurrentLocation && notTravelling;
                 }
             },
-            new GameAction()
-            {
-                ID = "Recruit",
-                ShowOutcomes = true,
-                Description = (world) => { return "Recruit a new adventurer"; },
-                IsValid = (world) => {
-                    // Valid if the player is at the tavern
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
-                    bool atTavern = player != null ?
-                        player.S["Location"] == "tavern" ? true : false
-                        : false;
-                    bool notTravelling = player != null ?
-                        player.S["Destination"] == null ? true : false
-                        : false;
-                    return atTavern && notTravelling;
-                }
-            },
+
            new GameAction()
             {
                 ID = "GoMarket",
@@ -120,7 +104,8 @@ namespace GAgent.StandardEvents
                             {"Name","player"},
                             {"Location", "tavern"},
                             {"Destination",null},
-                            {"Encounter",null}
+                            {"Encounter",null},
+                            {"CurrentAction",null}
                         }
                     });
                     return "the adventurer arrives in town, entering the tavern.";
@@ -151,8 +136,8 @@ namespace GAgent.StandardEvents
             {
                 GetDescription = (source, entities) => { return "...A safe journey?"; },
                 IsValid = (source, entities) => {
-                    bool valid = source.ID == "Travel" ? true : false;
-                    return valid;
+                    bool isTravelling = source.ID == "Travel" ? true : false;
+                    return isTravelling;
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
@@ -190,23 +175,6 @@ namespace GAgent.StandardEvents
                     }
                     return "The adventurer embarks on his journey to the tavern";
                 }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, entities) => { return "A new adventurer is recruited!"; },
-                IsValid = (source, entities) => {
-                    return source.ID == "Recruit";
-                },
-                PerformOutcome = (ref GameWorld world) => {
-                    GameEntity newEntity = EntityLibrary.DefaultEntities.GenerateEntity();
-                    StringBuilder sbOut = new StringBuilder();
-                    sbOut.AppendLine("Name: " + newEntity.S["Name"]);
-                    sbOut.AppendLine("Gender: " + newEntity.S["Gender"]);
-                    sbOut.AppendLine("Class: " + newEntity.S["Class"]);
-                    sbOut.AppendLine("Personality: " + string.Join(", ", newEntity.T["Personality"].ToArray()));
-                    return sbOut.ToString();
-                }
-
             },
             new Outcome()
             {

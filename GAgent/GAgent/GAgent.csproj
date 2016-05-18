@@ -51,9 +51,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selector.cs" />
-    <Compile Include="StandardEvents\TravelEncountersLib.cs" />
-    <Compile Include="StandardEvents\TravellingLib.cs" />
-    <Compile Include="StandardEvents\SampleMemoryEventLib.cs" />
+    <Compile Include="StandardEvents\EventTemplate.cs" />
+    <Compile Include="StandardEvents\PartyManagementEvents.cs" />
+    <Compile Include="StandardEvents\TravelEncounterEvents.cs" />
+    <Compile Include="StandardEvents\TravellingEvents.cs" />
+    <Compile Include="StandardEvents\SampleMemoryEvent.cs" />
     <Compile Include="EntityLibrary\Judgements.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using GAgent;
 namespace GAgent.StandardEvents
 {
     // This is an example of an event library.
-    public static class SampleMemoryEventLib
+    public static class SampleMemoryEvent
     {
         public static List<GameAction> GameEvents = new List<GameAction>()
         {
@@ -70,7 +70,7 @@ namespace GAgent.StandardEvents
                                 });
                         }
 
-                        if(!world.AllOutcomes.Any(o => o.ID == entityID))
+                        if(!world.AllOutcomes.Any(o => o.ID == entityID)) // we can programmatically add new outcomes during execution.  This is powerful but potentially messy I think
                         {
                             world.AllOutcomes.Add(new Outcome()
                             {

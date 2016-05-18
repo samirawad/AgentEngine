@@ -46,11 +46,13 @@ namespace GAgent
             //AllGameActions.AddRange(SampleMemoryEventLib.GameEvents);
             //AllOutcomes.AddRange(SampleMemoryEventLib.GameEventOutcomes);
             
-            // Load the Game Action libraries we're using
-            AllGameActions.AddRange(TravelingLib.GameEvents);
-            AllOutcomes.AddRange(TravelingLib.GameEventOutcomes);
-            AllGameActions.AddRange(TravelEncountersLib.GameEvents);
-            AllOutcomes.AddRange(TravelEncountersLib.GameEventOutcomes);
+            // Load the Game Event libraries we're using
+            AllGameActions.AddRange(TravelingEvents.GameEvents);
+            AllOutcomes.AddRange(TravelingEvents.GameEventOutcomes);
+            AllGameActions.AddRange(TravelEncounterEvents.GameEvents);
+            AllOutcomes.AddRange(TravelEncounterEvents.GameEventOutcomes);
+            AllGameActions.AddRange(PartyManagementEvents.GameEvents);
+            AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
         }
 
         
