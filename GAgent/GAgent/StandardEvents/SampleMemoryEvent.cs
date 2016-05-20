@@ -38,7 +38,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Collect the memories of entities"; },
                 IsValid = (world) => { 
                     // valid if entities have memories
-                    bool AnEntityHasMemories = world.AllEntities.Any(e => e.HasMemories());
+                    bool AnEntityHasMemories = world.AllEntities.Any(e => e.Value.HasMemories());
                     bool noSelectorEvents = !world.AllGameActions.Any(e => e.ID.Contains("view")); // perhaps game actions and events require tags
                     return AnEntityHasMemories && noSelectorEvents;
                 }
@@ -56,8 +56,11 @@ namespace GAgent.StandardEvents
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     // generate actions for each entity
-                    List<GameEntity> actorsToView = world.AllEntities.Where(e => e.S["Name"] != null).ToList();
-                    foreach(GameEntity currEntity in actorsToView)
+                    List<GameAgent> actorsToView = world.AllEntities // Checking for npc entities by the existence of a name key.  probably not the best way
+                        .Where(e => e.Value.S.ContainsKey("Name"))
+                        .Select(e => e.Value)
+                        .ToList();
+                    foreach(GameAgent currEntity in actorsToView)
                     {
                         string entityID = "view" + currEntity.S["Name"];
                         if (!world.AllGameActions.Any(a => a.ID == entityID))
@@ -102,18 +105,18 @@ namespace GAgent.StandardEvents
                     return source.ID == "FriendEvent00" ? true : false;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity niceagent = world.AllEntities.First(e => e.S["Name"] == "CuteFuzzy");
-                    GameEntity targetagent = world.AllEntities.First(e => e.S["Name"] == "InnocentBystander");
+                    GameAgent niceagent = world.AllEntities["CuteFuzzy"];
+                    GameAgent targetagent = world.AllEntities["InnocentBystander"];
 
                     Occurance newOccurance = new Occurance()
                     {
                         Description = 
                         niceagent.S["Name"] + " is nice to " + targetagent.S["Name"] + "!  How friendly.",
 
-                        OccuranceRoles = new Dictionary<string, HashSet<GameEntity>>()
+                        OccuranceRoles = new Dictionary<string, HashSet<GameAgent>>()
                         {
-                            {"Friendly", new HashSet<GameEntity>() { niceagent }},
-                            {"Friendtarget", new HashSet<GameEntity>() { targetagent }},
+                            {"Friendly", new HashSet<GameAgent>() { niceagent }},
+                            {"Friendtarget", new HashSet<GameAgent>() { targetagent }},
                         }
                     };
 
@@ -132,9 +135,9 @@ namespace GAgent.StandardEvents
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     // Select the participants of the outcome
-                    GameEntity agressor = world.AllEntities.First(e => e.S["Name"] == "BigBully");
-                    GameEntity defender = world.AllEntities.First(e => e.S["Name"] == "CuteFuzzy");
-                    GameEntity witness = world.AllEntities.First(e => e.S["Name"] == "InnocentBystander");
+                    GameAgent agressor = world.AllEntities["BigBully"];
+                    GameAgent defender = world.AllEntities["CuteFuzzy"];
+                    GameAgent witness = world.AllEntities["InnocentBystander"];
 
                     // Generate the outcome and assign to all entities as a memory
                     Occurance newOccurnace = new Occurance()
@@ -144,10 +147,10 @@ namespace GAgent.StandardEvents
                         " is mean to " + defender.S["Name"] +
                         " while " + witness.S["Name"] + " observes.",
 
-                        OccuranceRoles = new Dictionary<string, HashSet<GameEntity>>()
+                        OccuranceRoles = new Dictionary<string, HashSet<GameAgent>>()
                         {
-                            {"Agressor", new HashSet<GameEntity>() { agressor }},
-                            {"Victim", new HashSet<GameEntity>() { defender }}
+                            {"Agressor", new HashSet<GameAgent>() { agressor }},
+                            {"Victim", new HashSet<GameAgent>() { defender }}
                         }
                     };
                     agressor.AddMemory(newOccurnace);

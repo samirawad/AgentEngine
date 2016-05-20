@@ -17,7 +17,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Recruit a new adventurer"; },
                 IsValid = (world) => {
                     // Valid if the player is at the tavern
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool atTavern = player != null ?
                         player.S["Location"] == "tavern" ? true : false
                         : false;
@@ -35,14 +35,16 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Examine the party"; },
                 IsValid = (world) => {
                     // We can view the party when party members exist, and we aren't currently looking at the party
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notExaminingParty = player != null ?
                         player.S["CurrentAction"] == null ? true : false
                         : false;
-                    bool partyMembersExist = player != null ?
-                        world.AllEntities.Any(a => a.T.ContainsKey("Conditions")) ? true : false // need a better way to check for existence of party memebers
+                    bool partyMembersExist = player != null ? // gameagents tagged partymember
+                        world.AllEntities.Any(
+                        a => a.Value.Tags != null ? a.Value.Tags.Contains("partymember") : false
+                        ) ? true : false 
                         : false;
-                    return notExaminingParty;
+                    return notExaminingParty && partyMembersExist;
                 }
             }
         };
@@ -56,23 +58,27 @@ namespace GAgent.StandardEvents
                     return source.ID == "ViewParty";
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     StringBuilder sbOut = new StringBuilder();
                     sbOut.AppendLine("Examining the party");
                     player.S["CurrentAction"] = "viewparty";
 
                     // Create the view party events for each party memeber if they don't exist
-                    foreach(var currPartyMember in world.AllEntities.Where(p => p.T["Conditions"].Contains("InParty")))
+                    List<GameAgent> partyMembers = world.AllEntities.Where(p => 
+                        p.Value.T.ContainsKey("Conditions") ?
+                        p.Value.T["Conditions"].Contains("InParty") : false)
+                        .Select(p => p.Value).ToList();
+                    foreach(var currPartyMember in partyMembers)
                     {
                         // Check to see if an event already exists for viewing this agent.
                         // If not, create it and the attending outcome.
-                        if(!world.AllGameActions.Any(a => a.ID == "view_"+currPartyMember.N["Name"]))
+                        if(!world.AllGameActions.Any(a => a.ID == "view_"+currPartyMember.S["Name"]))
                         {
-                            string viewID = "view_" + currPartyMember.N["Name"];
+                            string viewID = "view_" + currPartyMember.S["Name"];
                             world.AllGameActions.Add(new GameAction()
                             {
                                 ID = viewID,
-                                Description = (w) => { return "view " + currPartyMember.N["Name"]; },
+                                Description = (w) => { return "view " + currPartyMember.S["Name"]; },
                                 IsValid = (w) =>
                                 {
                                     return player.S["CurrentAction"] == "viewparty" ? true : false;
@@ -112,7 +118,7 @@ namespace GAgent.StandardEvents
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     
-                    GameEntity newEntity = EntityLibrary.DefaultEntities.GenerateEntity();
+                    GameAgent newEntity = EntityLibrary.DefaultEntities.GenerateEntity();
                     StringBuilder sbOut = new StringBuilder();
                     sbOut.AppendLine("Name: " + newEntity.S["Name"]);
                     sbOut.AppendLine("Gender: " + newEntity.S["Gender"]);
@@ -121,7 +127,8 @@ namespace GAgent.StandardEvents
 
                     // Add the new entity to the party
                     newEntity.T["Conditions"].Add("InParty");
-                    world.AllEntities.Add(newEntity);
+                    newEntity.Tags = new HashSet<string>() { "partymember" };
+                    world.AllEntities.Add(newEntity.S["Name"], newEntity);
                     return sbOut.ToString();
                 }
             },

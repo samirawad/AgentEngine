@@ -15,7 +15,7 @@ namespace GAgent.StandardEvents
                 ShowOutcomes = false,
                 Description = (world) => { return "An encounter occurs..."; },
                 IsValid = (world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool hasEncounter = player != null ?
                         player.S["Encounter"] == "true" ? true : false : false;
                     return hasEncounter;
@@ -32,7 +32,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Location"))
                     {
                         player.S.Add("Location", player.S["Destination"]);
@@ -57,7 +57,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Location"))
                     {
                         player.S.Add("Location", player.S["Destination"]);

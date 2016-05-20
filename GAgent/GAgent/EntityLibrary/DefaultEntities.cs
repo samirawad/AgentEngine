@@ -83,9 +83,9 @@ namespace GAgent.EntityLibrary
 
         // A generalized entity generator which assembles entities from random properties and tags
         // could be used for generating everything from randomized monsters to randomized agents with personalities
-        public static GameEntity GenerateEntity()
+        public static GameAgent GenerateEntity()
         {
-            GameEntity newEntity = new GameEntity();
+            GameAgent newEntity = new GameAgent();
             newEntity.T = new Dictionary<string, HashSet<string>>();
             newEntity.T.Add("Personality", new HashSet<string>());
             // Ensure that the newly generated character has at least 3 traits.
@@ -124,9 +124,9 @@ namespace GAgent.EntityLibrary
             return newEntity;
         }
 
-        public static List<GameEntity> SampleEntities = new List<GameEntity>()
+        public static List<GameAgent> SampleEntities = new List<GameAgent>()
         {
-            new GameEntity()
+            new GameAgent()
             {
                  S = new Dictionary<string,string>()
                  {
@@ -138,7 +138,7 @@ namespace GAgent.EntityLibrary
                  },
                  Morals = JudgementLibrary.DefaultJudgements
             },
-            new GameEntity()
+            new GameAgent()
             {
                  S = new Dictionary<string,string>()
                  {
@@ -150,7 +150,7 @@ namespace GAgent.EntityLibrary
                  },
                  Morals = JudgementLibrary.DefaultJudgements
             },
-            new GameEntity()
+            new GameAgent()
             {
                  S = new Dictionary<string,string>()
                  {

@@ -30,7 +30,7 @@ namespace GAgent
         // Is it possible to take this action now?
         public EventIsValidDelegate IsValid;
 
-        public string ListOutcomes(GameWorld world, List<Outcome> AllOutcomes, List<GameEntity> AllEntities)
+        public string ListOutcomes(GameWorld world, List<Outcome> AllOutcomes, Dictionary<string, GameAgent> AllEntities)
         {
             // List the possible outcomes for this action
             // We might not want to show all the outcomes, depending on the action.

@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="EntityLibrary\DefaultEntities.cs" />
     <Compile Include="GameAction.cs" />
-    <Compile Include="GameEntity.cs" />
+    <Compile Include="GameAgent.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="MarkovNameGenerator.cs" />
     <Compile Include="Outcome.cs" />

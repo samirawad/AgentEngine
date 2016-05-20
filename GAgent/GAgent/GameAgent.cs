@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace GAgent
 {
-    public class GameEntity
+    public class GameAgent
     {
-        public Dictionary<string, long> N;  // numeric values
+        public Dictionary<string, long> N = new Dictionary<string,long>();  // numeric values
 
-        public Dictionary<string, string> S; // string values
+        public Dictionary<string, string> S = new Dictionary<string,string>() ; // string values
 
-        public Dictionary<string, HashSet<string>> T; // tags
+        public Dictionary<string, HashSet<string>> T = new Dictionary<string,HashSet<string>>(); // tagsets
 
-        public List<RoleJudgement> Morals;
+        public HashSet<string> Tags = new HashSet<string>();
+
+        public List<RoleJudgement> Morals = new List<RoleJudgement>();
         
         private List<Occurance> Memories = new List<Occurance>();
 
@@ -33,7 +35,7 @@ namespace GAgent
         }
 
         // Search the memories of this agent to determine if this judgement exists
-        public bool HasJudgmentOfAgent(string judgement, GameEntity agent)
+        public bool HasJudgmentOfAgent(string judgement, GameAgent agent)
         {
             bool result = Judgements.Any(j => j.JudgedEntity == agent && j.Judgement == judgement);
             return result;
@@ -59,7 +61,7 @@ namespace GAgent
             {
                 if(currJudgement.RolePredicate(this, memoryToJudge))
                 {
-                    foreach (GameEntity currEntity in memoryToJudge.OccuranceRoles[roleToJudge])
+                    foreach (GameAgent currEntity in memoryToJudge.OccuranceRoles[roleToJudge])
                     {
                         AgentJudgements.Add(new AgentJudgement()
                         {

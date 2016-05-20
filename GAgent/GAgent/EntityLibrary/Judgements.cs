@@ -8,7 +8,7 @@ namespace GAgent
 {
     public struct AgentJudgement
     {
-        public GameEntity JudgedEntity;
+        public GameAgent JudgedEntity;
 
         public string Judgement;
 
@@ -23,11 +23,11 @@ namespace GAgent
     {
         public string Description;  // This describes the action of the occurance.  It will be filled out by the Event outcome
 
-        public Dictionary<string, HashSet<GameEntity>> OccuranceRoles;  // The roles that each entity fulfilled during the occurance
+        public Dictionary<string, HashSet<GameAgent>> OccuranceRoles;  // The roles that each entity fulfilled during the occurance
     }
 
     // This function will return true if the role specified in the occurence satisfied the conditions supplied in the function
-    public delegate bool RolePredicateDelegate(GameEntity examiner, Occurance occurance);
+    public delegate bool RolePredicateDelegate(GameAgent examiner, Occurance occurance);
 
     // how an entity feels about a particular role in an event.  Since an event will have multiple roles, the opinion the entity
     // has of an event will be nuanced, based on their opinion of the different roles which participate in the event.
@@ -62,8 +62,8 @@ namespace GAgent
                 Description = "Feels affection for those who are friendly to them.",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity friendlyagent = occurence.OccuranceRoles["Friendly"].FirstOrDefault();
-                        GameEntity friendtarget = occurence.OccuranceRoles["Friendtarget"].FirstOrDefault();
+                        GameAgent friendlyagent = occurence.OccuranceRoles["Friendly"].FirstOrDefault();
+                        GameAgent friendtarget = occurence.OccuranceRoles["Friendtarget"].FirstOrDefault();
 
                         bool IamTarget = friendtarget == judge;
                         bool FriendlyIsNotMe = friendlyagent != judge;
@@ -78,7 +78,7 @@ namespace GAgent
                 Description = "Dislikes agression whenever the aggressor isn't himself",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
+                        GameAgent agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
                         return agressor != judge;
                     },
                 Judgement = "Dislikes",
@@ -90,7 +90,7 @@ namespace GAgent
                 Description = "Feels powerful whenever he is the agressor",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
+                        GameAgent agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
                         return agressor == judge;
                     },
                 Emotion = "Powerful"
@@ -101,7 +101,7 @@ namespace GAgent
                 Description = "Feels afraid of the agressor when he is the victim.",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
+                        GameAgent victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
                         return victim == judge;
                     },
                 Judgement = "Afraid",
@@ -113,7 +113,7 @@ namespace GAgent
                 Description = "Feels rage towards the agressor when the victim is his friend",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
+                        GameAgent victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
                         bool IamNotTheVictim = victim != judge;
                         bool ICareAboutVictim = judge.HasJudgmentOfAgent("Affection",victim);
                         return IamNotTheVictim && ICareAboutVictim;
@@ -127,7 +127,7 @@ namespace GAgent
                 Description = "Feels pity for the victim when not the agressor",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
+                        GameAgent agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
                         return agressor != judge;
                     },
                 Judgement = "Pity"
@@ -138,7 +138,7 @@ namespace GAgent
                 Description = "Feels disgust for the victim if he is the agressor",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
+                        GameAgent agressor = occurence.OccuranceRoles["Agressor"].FirstOrDefault();
                         return agressor == judge;
                     },
                 Judgement = "Disgust",
@@ -150,7 +150,7 @@ namespace GAgent
                 Description = "Feels rage when the victim is his friend",
                 RolePredicate = (judge, occurence) =>
                     {
-                        GameEntity victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
+                        GameAgent victim = occurence.OccuranceRoles["Victim"].FirstOrDefault();
                         bool IamNotTheVictim = victim != judge;
                         bool ICareAboutVictim = judge.HasJudgmentOfAgent("Affection", victim);
                         return IamNotTheVictim && ICareAboutVictim;

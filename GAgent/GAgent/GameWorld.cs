@@ -11,9 +11,9 @@ namespace GAgent
     // is one of the main implementations of game state.
     public struct GameEntityRelation
     {
-        GameEntity RelationSubject;
+        GameAgent RelationSubject;
 
-        GameEntity RelationObject;
+        GameAgent RelationObject;
 
         string Relationship;
     }
@@ -29,7 +29,7 @@ namespace GAgent
 
         public Dictionary<char, GameAction>  CurrentValidEvents = new Dictionary<char,GameAction>();
 
-        public List<GameEntity> AllEntities = new List<GameEntity>();
+        public Dictionary<string, GameAgent> AllEntities = new Dictionary<string, GameAgent>();
 
         public List<GameEntityRelation> AllRelations = new List<GameEntityRelation>();
 
@@ -42,7 +42,10 @@ namespace GAgent
             // TODO: Create starting entities with their relations.
             // an entity library which generates and adds entities to the world?
 
-            AllEntities.AddRange(EntityLibrary.DefaultEntities.SampleEntities);
+            foreach(GameAgent currEntity in EntityLibrary.DefaultEntities.SampleEntities)
+            {
+                AllEntities.Add(currEntity.S["Name"], currEntity);
+            }
             //AllGameActions.AddRange(SampleMemoryEventLib.GameEvents);
             //AllOutcomes.AddRange(SampleMemoryEventLib.GameEventOutcomes);
             

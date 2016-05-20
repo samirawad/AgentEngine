@@ -16,7 +16,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Begin the adventure!"; },
                 IsValid = (world) => { 
                     // Initialization action. Valid if the player hasn't yet been created.
-                    return !world.AllEntities.Any(e => e.S["Name"] == "player");
+                    return !world.AllEntities.ContainsKey("player");
                 }
             },
             new GameAction()
@@ -26,7 +26,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Go to the Tavern"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "tavern" ? true : false
                         : false;
@@ -44,7 +44,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Go to the Market"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "market" ? true : false
                         : false;
@@ -61,7 +61,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "Go to the Temple"; },
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "temple" ? true : false
                         : false;
@@ -79,7 +79,7 @@ namespace GAgent.StandardEvents
                 Description = (world) => { return "The adventurer travels towards his destination..."; },
                 IsValid = (world) => { 
                     // Is valid if the player has a current destination
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool isTravelling = player != null ?
                         player.S["Destination"] != null ? true : false : false;
                     bool noEncounter = player != null ?
@@ -98,7 +98,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    world.AllEntities.Add(new GameEntity() { 
+                    world.AllEntities.Add("player", new GameAgent() { 
                         // Initialize the player
                         S = new Dictionary<string,string>() {
                             {"Name","player"},
@@ -119,7 +119,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Encounter"))
                     {
                         player.S.Add("Encounter", "true");
@@ -140,7 +140,7 @@ namespace GAgent.StandardEvents
                     return isTravelling;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Location"))
                     {
                         player.S.Add("Location", player.S["Destination"]);
@@ -164,7 +164,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Destination"))
                     {
                         player.S.Add("Destination", "tavern");
@@ -184,7 +184,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Destination"))
                     {
                         player.S.Add("Destination", "temple");
@@ -204,7 +204,7 @@ namespace GAgent.StandardEvents
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
-                    GameEntity player = world.AllEntities.FirstOrDefault(e => e.S["Name"] == "player");
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (!player.S.ContainsKey("Destination"))
                     {
                         player.S.Add("Destination", "market");
