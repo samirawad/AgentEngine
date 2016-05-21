@@ -18,6 +18,9 @@ namespace GAgent.StandardEvents
                 IsValid = (world) => {
                     // Valid if the player is at the tavern
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    bool notExaminingParty = player != null ?
+                            player.S["CurrentAction"] == "resting" ? true : false
+                            : false;
                     bool atTavern = player != null ?
                         player.S["Location"] == "tavern" ? true : false
                         : false;
@@ -25,7 +28,7 @@ namespace GAgent.StandardEvents
                     bool notTravelling = player != null ?
                         player.S["Destination"] == null ? true : false
                         : false;
-                    return atTavern && notTravelling;
+                    return notExaminingParty && atTavern && notTravelling;
                 }
             },
             new GameAction()
@@ -37,7 +40,7 @@ namespace GAgent.StandardEvents
                     // We can view the party when party members exist, and we aren't currently looking at the party
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notExaminingParty = player != null ?
-                        player.S["CurrentAction"] == null ? true : false
+                        player.S["CurrentAction"] == "resting" ? true : false
                         : false;
                     bool partyMembersExist = player != null ? // gameagents tagged partymember
                         world.AllEntities.Any(
@@ -96,13 +99,13 @@ namespace GAgent.StandardEvents
                                  },
                                  PerformOutcome = (ref GameWorld w) => 
                                  {
-                                     StringBuilder sbResult = new StringBuilder();
-                                     sbOut.AppendLine("Name: " + currPartyMember.S["Name"]);
-                                     sbOut.AppendLine("Gender: " + currPartyMember.S["Gender"]);
-                                     sbOut.AppendLine("Class: " + currPartyMember.S["Class"]);
-                                     sbOut.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality"].ToArray()));
-                                     player.S["CurrentAction"] = null;
-                                     return sbResult.ToString();
+                                     StringBuilder sbDescription = new StringBuilder();
+                                     sbDescription.AppendLine("Name: " + currPartyMember.S["Name"]);
+                                     sbDescription.AppendLine("Gender: " + currPartyMember.S["Gender"]);
+                                     sbDescription.AppendLine("Class: " + currPartyMember.S["Class"]);
+                                     sbDescription.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality"].ToArray()));
+                                     player.S["CurrentAction"] = "resting";
+                                     return sbDescription.ToString();
                                  }
                             });
                         };

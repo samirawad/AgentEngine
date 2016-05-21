@@ -27,13 +27,15 @@ namespace GAgent.StandardEvents
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    if (player == null) return false;
+                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "tavern" ? true : false
                         : false;
                     bool notTravelling = player != null ?
                         player.S["Destination"] == null ? true : false
                         : false;
-                    return notAtCurrentLocation && notTravelling;
+                    return atRest && notAtCurrentLocation && notTravelling;
                 }
             },
 
@@ -45,13 +47,15 @@ namespace GAgent.StandardEvents
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    if (player == null) return false;
+                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "market" ? true : false
                         : false;
                     bool notTravelling = player != null ?
                         player.S["Destination"] == null ? true : false
                         : false;
-                    return notAtCurrentLocation && notTravelling;
+                    return atRest && notAtCurrentLocation && notTravelling;
                 }
             },
             new GameAction()
@@ -62,13 +66,15 @@ namespace GAgent.StandardEvents
                 IsValid = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    if (player == null) return false;
+                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
                     bool notAtCurrentLocation = player != null ?
                         player.S["Location"] != "temple" ? true : false
                         : false;
                     bool notTravelling = player != null ?
                         player.S["Destination"] == null ? true : false
                         : false;
-                    return notAtCurrentLocation && notTravelling;
+                    return atRest && notAtCurrentLocation && notTravelling;
                 }
             },
             new GameAction()
@@ -80,6 +86,8 @@ namespace GAgent.StandardEvents
                 IsValid = (world) => { 
                     // Is valid if the player has a current destination
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    if (player == null) return false;
+                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
                     bool isTravelling = player != null ?
                         player.S["Destination"] != null ? true : false : false;
                     bool noEncounter = player != null ?
@@ -105,7 +113,7 @@ namespace GAgent.StandardEvents
                             {"Location", "tavern"},
                             {"Destination",null},
                             {"Encounter",null},
-                            {"CurrentAction",null}
+                            {"CurrentAction","resting"}
                         }
                     });
                     return "the adventurer arrives in town, entering the tavern.";
