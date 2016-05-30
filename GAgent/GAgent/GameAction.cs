@@ -30,17 +30,17 @@ namespace GAgent
         // Is it possible to take this action now?
         public EventIsValidDelegate IsValid;
 
-        public string ListOutcomes(GameWorld world, List<Outcome> AllOutcomes, Dictionary<string, GameAgent> AllEntities)
+        public string ListOutcomes(GameWorld world)
         {
             // List the possible outcomes for this action
             // We might not want to show all the outcomes, depending on the action.
             StringBuilder sbOutput = new StringBuilder();
             if (ShowOutcomes)
             {
-                Outcome[] validOutcomes = AllOutcomes.Where(o => o.IsValid(this, AllEntities)).ToArray();
+                Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(this, world)).ToArray();
                 foreach (Outcome currOutcome in validOutcomes)
                 {
-                    sbOutput.AppendLine(currOutcome.GetDescription(this, AllEntities));
+                    sbOutput.AppendLine(currOutcome.GetDescription(this, world));
                 }
             }
             else
@@ -52,7 +52,7 @@ namespace GAgent
 
         public string SelectOutcome(GameWorld world)
         {
-            Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(this, world.AllEntities)).ToArray();
+            Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(this, world)).ToArray();
             if (validOutcomes.Length > 0)
             {
                 Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];

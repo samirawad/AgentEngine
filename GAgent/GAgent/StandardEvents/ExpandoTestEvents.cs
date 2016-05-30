@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace GAgent.StandardEvents
 {
-    public static class EventTemplate
+    public static class ExpandoTestEvents
     {
         public static List<GameAction> GameEvents = new List<GameAction>() { 
             new GameAction()
             {
                 ID = "id",
                 ShowOutcomes = false,
-                Description = (world) => { return "description of the event"; },
+                Description = (world) => { return "This action initializes the world"; },
                 IsValid = (world) => {
-                    return false; // implement validity logic here;
+                    return false;
                 }
             },
         };
@@ -23,7 +23,7 @@ namespace GAgent.StandardEvents
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() { 
             new Outcome()
             {
-                GetDescription = (source, world) => { return "description of the outcome"; },
+                GetDescription = (source, world) => { return "Initializing the world"; },
                 IsValid = (source, world) => {
                     bool valid = false; // function that determines if the outcome is valid
                     return valid;

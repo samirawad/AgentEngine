@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace GAgent
             {
                 if (!exit)
                 {
+
                     // Show the possible actions
                     Console.WriteLine(WorldEngine.LastOutcome);
                     string validEvents = WorldEngine.GetValidEvents();

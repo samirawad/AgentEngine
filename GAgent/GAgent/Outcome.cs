@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace GAgent
 {
     // An outcome effects a change in gamestate. This delegate determines if the outcome is valid under the current gamestate
-    public delegate bool OutcomeIsValidDelegate(GameAction sourceEvent, Dictionary<string, GameAgent> entities);
+    public delegate bool OutcomeIsValidDelegate(GameAction sourceEvent, GameWorld world);
 
     // The description of the outcome may be blank, or different depending upon the game state
-    public delegate string OutcomeDescriptionDelegate(GameAction sourceEvent, Dictionary<string, GameAgent> entities);
+    public delegate string OutcomeDescriptionDelegate(GameAction sourceEvent, GameWorld world);
 
     // Holds the function which alters gamestate, it will be run if the outcome is valid
     public delegate string PerformOutcomeDelegate(ref GameWorld world);

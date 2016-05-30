@@ -49,8 +49,8 @@ namespace GAgent.StandardEvents
         {
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "Collect memories"; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "Collect memories"; },
+                IsValid = (source, world) => {
                     bool valid = source.ID == "CollectMemories" ? true : false;
                     return valid;
                 },
@@ -68,8 +68,8 @@ namespace GAgent.StandardEvents
                             world.AllGameActions.Add(new GameAction()
                                 {
                                      ID = entityID,
-                                     Description = (world0) => { return "View " + currEntity.S["Name"]; },
-                                     IsValid = (world0) => { return true; }
+                                     Description = (w) => { return "View " + currEntity.S["Name"]; },
+                                     IsValid = (w) => { return true; }
                                 });
                         }
 
@@ -78,13 +78,13 @@ namespace GAgent.StandardEvents
                             world.AllOutcomes.Add(new Outcome()
                             {
                                  ID = entityID,
-                                 GetDescription = (source, entities) => { return "view memories of" + currEntity.S["Name"]; },
-                                 IsValid = (source, entities) =>
+                                 GetDescription = (s, w) => { return "view memories of" + currEntity.S["Name"]; },
+                                 IsValid = (s, w) =>
                                  {
-                                     bool valid = source.ID == entityID ? true : false;
+                                     bool valid = s.ID == entityID ? true : false;
                                      return valid;
                                  },
-                                 PerformOutcome = (ref GameWorld world1) => 
+                                 PerformOutcome = (ref GameWorld w) => 
                                  {
                                      StringBuilder sbResult = new StringBuilder();
                                      sbResult.AppendLine("the memories of " + currEntity.S["Name"] + ": ");
@@ -100,8 +100,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "A friendly occurance"; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "A friendly occurance"; },
+                IsValid = (source, world) => {
                     return source.ID == "FriendEvent00" ? true : false;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -128,8 +128,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "An aggresive occurence observed by multiple parties."; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "An aggresive occurence observed by multiple parties."; },
+                IsValid = (source, world) => {
                     bool valid = source.ID == "AgressiveEvent00" ? true : false;
                     return valid;
                 },

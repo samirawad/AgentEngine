@@ -1,6 +1,7 @@
 ﻿using GAgent.StandardEvents;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ namespace GAgent
         public Dictionary<string, GameAgent> AllEntities = new Dictionary<string, GameAgent>();
 
         public List<GameEntityRelation> AllRelations = new List<GameEntityRelation>();
+
+        public dynamic WorldState = new ExpandoObject();
 
         public List<GameAction> AllGameActions = new List<GameAction>();
 
@@ -79,7 +82,7 @@ namespace GAgent
 
         public string ListEventOutcomes(char eventKey)
         {
-            return CurrentValidEvents[eventKey].ListOutcomes(this, AllOutcomes, AllEntities);
+            return CurrentValidEvents[eventKey].ListOutcomes(this);
         }
 
         public bool IsEventValid(char eventKey)

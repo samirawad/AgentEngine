@@ -26,8 +26,8 @@ namespace GAgent.StandardEvents
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() { 
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "Friendly encounter."; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "Friendly encounter."; },
+                IsValid = (source, world) => {
                     bool valid = source.ID == "Encounter" ? true : false;
                     return valid;
                 },
@@ -51,8 +51,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "A hostile encounter."; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "A hostile encounter."; },
+                IsValid = (source, world) => {
                     bool valid = source.ID == "Encounter" ? true : false;
                     return valid;
                 },

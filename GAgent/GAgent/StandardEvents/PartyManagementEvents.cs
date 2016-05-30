@@ -16,7 +16,7 @@ namespace GAgent.StandardEvents
                 ShowOutcomes = true,
                 Description = (world) => { return "Recruit a new adventurer"; },
                 IsValid = (world) => {
-                    // Valid if the player is at the tavern
+                    // Valid if the player is resting at the tavern
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notExaminingParty = player != null ?
                             player.S["CurrentAction"] == "resting" ? true : false
@@ -31,6 +31,15 @@ namespace GAgent.StandardEvents
                     return notExaminingParty && atTavern && notTravelling;
                 }
             },
+            //new GameAction()
+            //{
+            //    ID = "CandidateJoinDecision",
+            //    ShowOutcomes = false,
+            //    Description = (world) => { return "Should we recruit?"; },
+            //    IsValid = (world) => {
+            //             // valid if player is viewing a candidate
+            //    return true;    }
+            //},
             new GameAction()
             {
                 ID = "ViewParty",
@@ -56,8 +65,8 @@ namespace GAgent.StandardEvents
         {
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "View the party"; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "View the party"; },
+                IsValid = (source, world) => {
                     return source.ID == "ViewParty";
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -91,10 +100,10 @@ namespace GAgent.StandardEvents
                            world.AllOutcomes.Add(new Outcome()
                             {
                                  ID = viewID,
-                                 GetDescription = (source, entities) => { return "view " + currPartyMember.S["Name"]; },
-                                 IsValid = (source, entities) =>
+                                 GetDescription = (s, w) => { return "view " + currPartyMember.S["Name"]; },
+                                 IsValid = (s, w) =>
                                  {
-                                     bool valid = source.ID == viewID ? true : false;
+                                     bool valid = s.ID == viewID ? true : false;
                                      return valid;
                                  },
                                  PerformOutcome = (ref GameWorld w) => 
@@ -115,8 +124,8 @@ namespace GAgent.StandardEvents
             },
             new Outcome()
             {
-                GetDescription = (source, entities) => { return "A new adventurer is recruited!"; },
-                IsValid = (source, entities) => {
+                GetDescription = (source, world) => { return "A new adventurer is recruited!"; },
+                IsValid = (source, world) => {
                     return source.ID == "Recruit";
                 },
                 PerformOutcome = (ref GameWorld world) => {
