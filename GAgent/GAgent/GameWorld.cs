@@ -12,11 +12,11 @@ namespace GAgent
     // is one of the main implementations of game state.
     public struct GameEntityRelation
     {
-        GameAgent RelationSubject;
+        public GameAgent RelationSubject;
 
-        GameAgent RelationObject;
+        public GameAgent RelationObject;
 
-        string Relationship;
+        public string Relationship;
     }
 
     // Behold, the smallest game engine evah
@@ -33,8 +33,6 @@ namespace GAgent
         public Dictionary<string, GameAgent> AllEntities = new Dictionary<string, GameAgent>();
 
         public List<GameEntityRelation> AllRelations = new List<GameEntityRelation>();
-
-        public dynamic WorldState = new ExpandoObject();
 
         public List<GameAction> AllGameActions = new List<GameAction>();
 
@@ -61,7 +59,11 @@ namespace GAgent
             AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
         }
 
-        
+        public GameAgent GetAgentByID(string agentID)
+        {
+            return AllEntities.ContainsKey(agentID) ? AllEntities[agentID] : null;
+        }
+
         // Return a string describing which events are currently valid, while populating the CurrentValidEvents dictionary.
         public string GetValidEvents()
         {

@@ -24,7 +24,10 @@ namespace GAgent.EntityLibrary
             "Male","Female"
         };
 
-       
+       /*
+        *   It might be interesting to not show all personality tags right away, perhaps only the obvious outward ones.
+        *   That way we could discover character flaws through gameplay instead.
+        */
         public static List<List<string>> PersonalityTags = new List<List<string>>()
         {
             // Extraversion
@@ -32,7 +35,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"gregarious","shy"},
             new List<string>() {"assertive","unassertive"},
             new List<string>() {"energetic","leisurely"},
-            new List<string>() {"adventurous","complacent"},
+            new List<string>() {"adventurous","cautious"},
             new List<string>() {"cheerful","grim"},
             // Agreeableness
             new List<string>() {"trusting","distrustful"},
