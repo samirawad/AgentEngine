@@ -70,7 +70,7 @@ namespace GAgent.EntityLibrary
             new List<string>() {"untraditional","traditional"}, // of their origin culture
             new List<string>() {"irreverant","religious"}, // of religion
             new List<string>() {"unpatriotic","patriotic"}, // of the establisment 
-            new List<string>() {"honorable","trecherous"}, // personal code
+            new List<string>() {"honorable","unscrupulous"}, // personal code
 
             // Physical Traits 
             new List<string>() {"beautiful","ugly"},
@@ -109,7 +109,6 @@ namespace GAgent.EntityLibrary
                 }
             }
             
-
             // Generate name based on gender
             string gender =  GenderTypes.ToArray()[rnd.Next(GenderTypes.Count)];
             MarkovNameGenerator nameGenerator = gender == "Male" ?
@@ -123,7 +122,10 @@ namespace GAgent.EntityLibrary
                 {"Name", newName}
             };
             newEntity.T.Add("Conditions", new HashSet<string>());
-            
+
+            // Add default judgements
+            newEntity.Morals = JudgementLibrary.DefaultJudgements;
+
             return newEntity;
         }
 

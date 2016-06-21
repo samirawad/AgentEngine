@@ -132,7 +132,7 @@ namespace GAgent.StandardEvents
                            world.AllOutcomes.Add(new Outcome()
                             {
                                  ID = viewID,
-                                 GetDescription = (s, w) => { return "view " + currPartyMember.S["Name"]; },
+                                 GetDescription = (s, w) => { return "viewing " + currPartyMember.S["Name"]; },
                                  IsValid = (s, w) =>
                                  {
                                      bool valid = s.ID == viewID ? true : false;
@@ -221,7 +221,7 @@ namespace GAgent.StandardEvents
                     GameAgent candidate = candidateRelation.RelationObject;
                     world.AllEntities.Remove(candidate.S["Name"]);
                     world.AllRelations.Remove(candidateRelation);
-                    sbOut.AppendLine("lol u suk");
+                    sbOut.AppendLine(candidate.S["Name"] + " is rejected.");
                     return sbOut.ToString();
                 }
             }
