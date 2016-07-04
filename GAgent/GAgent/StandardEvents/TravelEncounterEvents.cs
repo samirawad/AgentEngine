@@ -14,7 +14,7 @@ namespace GAgent.StandardEvents
                 ID = "Encounter",
                 ShowOutcomes = false,
                 Description = (world) => { return "An encounter occurs..."; },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool hasEncounter = player != null ?
                         player.S["Encounter"] == "true" ? true : false : false;

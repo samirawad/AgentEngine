@@ -15,7 +15,7 @@ namespace GAgent.StandardEvents
                 ID = "Interview",
                 ShowOutcomes = true,
                 Description = (world) => { return "Recruit a new adventurer"; },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     // Valid if the player is resting at the tavern
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     bool notExaminingParty = player != null ?
@@ -48,7 +48,7 @@ namespace GAgent.StandardEvents
                         c.Relationship == "interviewing").RelationObject;
                     return "Hire " + candidate.S["Name"]; 
                 },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     return world.AllRelations.Any(r => r.Relationship == "interviewing");
                 }
             },
@@ -62,7 +62,7 @@ namespace GAgent.StandardEvents
                         c.Relationship == "interviewing").RelationObject;
                     return "Reject " + candidate.S["Name"]; 
                 },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     return world.AllRelations.Any(r => r.Relationship == "interviewing");
                 }
             },
@@ -71,7 +71,7 @@ namespace GAgent.StandardEvents
                 ID = "ViewParty",
                 ShowOutcomes = true,
                 Description = (world) => { return "Examine the party"; },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     // We can view the party when party members exist, and we aren't currently looking at the party
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     
@@ -123,7 +123,7 @@ namespace GAgent.StandardEvents
                                 ID = viewID,
                                 ShowOutcomes = true,
                                 Description = (w) => { return "View " + currPartyMember.S["Name"] + ", " + currPartyMember.S["Gender"] + " " +currPartyMember.S["Class"]; },
-                                IsValid = (w) =>
+                                IsValidDel = (w) =>
                                 {
                                     return player.S["CurrentAction"] == "viewparty" ? true : false;
                                 },

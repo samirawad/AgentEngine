@@ -56,7 +56,7 @@ namespace GAgent
         public List<AgentJudgement> JudgeRole(Occurance memoryToJudge, string roleToJudge)
         {
             List<AgentJudgement> AgentJudgements = new List<AgentJudgement>();
-            // For every moral that judges this role
+            // For every moral that this agent posesses, jude the role in the memory
             foreach(RoleJudgement currJudgement in Morals.Where(m => m.Role == roleToJudge))
             {
                 if(currJudgement.RolePredicate(this, memoryToJudge))

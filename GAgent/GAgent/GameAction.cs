@@ -25,10 +25,19 @@ namespace GAgent
 
         public EventTextDelegate Detail; // When an action is selected, before it is confirmed, more detail is provided here.
 
+        public List<String> RequiredEntities; // These agents are required for the action to be valid
+
         public bool ShowOutcomes;
 
-        // Is it possible to take this action now?
-        public EventIsValidDelegate IsValid;
+        public EventIsValidDelegate IsValidDel;
+        
+        public bool IsValid(GameWorld world)
+        {
+            // If all the required agents exist, and the validity delegate passes, the action is valid.
+            // Defaults to true if there are no required entities.
+            bool allAgentsExist = RequiredEntities != null ? RequiredEntities.All(r => world.AllEntities.ContainsKey(r)) : true ;
+            return allAgentsExist && IsValidDel(world);
+        }
 
         public string ListOutcomes(GameWorld world)
         {

@@ -47,8 +47,14 @@ namespace GAgent
     public static class JudgementLibrary // we can refactor this as a dictionary and move the judgement methods to gameentity
     {
 
-        // We should put the Judgements into named collections, so we can assign them by name
-        // and also select them randomly.
+        /* 
+         * We should put the Judgements into named collections, so we can assign them by name
+         * and also select them randomly.  We should probably assign judgements to personality traits.
+         * 
+         * We might consider holding off on the judgements until we have some events with roles to judge,
+         * which might be easier.
+         */
+ 
         public static List<RoleJudgement> MoreJudgements = new List<RoleJudgement>()
         {
 

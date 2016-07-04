@@ -14,7 +14,7 @@ namespace GAgent.StandardEvents
                 ID = "Init",
                 ShowOutcomes = true,
                 Description = (world) => { return "Begin the adventure!"; },
-                IsValid = (world) => { 
+                IsValidDel = (world) => { 
                     // Initialization action. Valid if the player hasn't yet been created.
                     return !world.AllEntities.ContainsKey("player");
                 }
@@ -24,7 +24,7 @@ namespace GAgent.StandardEvents
                 ID = "GoTavern",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Tavern"; },
-                IsValid = (world) => { 
+                IsValidDel = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (player == null) return false;
@@ -44,7 +44,7 @@ namespace GAgent.StandardEvents
                 ID = "GoMarket",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Market"; },
-                IsValid = (world) => { 
+                IsValidDel = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (player == null) return false;
@@ -63,7 +63,7 @@ namespace GAgent.StandardEvents
                 ID = "GoTemple",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Temple"; },
-                IsValid = (world) => { 
+                IsValidDel = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (player == null) return false;
@@ -83,7 +83,7 @@ namespace GAgent.StandardEvents
                 ShowOutcomes = true,
                 Detail = (world) => { return "an encounter might occur..."; },
                 Description = (world) => { return "The adventurer travels towards his destination..."; },
-                IsValid = (world) => { 
+                IsValidDel = (world) => { 
                     // Is valid if the player has a current destination
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     if (player == null) return false;

@@ -14,7 +14,7 @@ namespace GAgent.StandardEvents
                 ID = "id",
                 ShowOutcomes = false,
                 Description = (world) => { return "description of the event"; },
-                IsValid = (world) => {
+                IsValidDel = (world) => {
                     return false; // implement validity logic here;
                 }
             },
