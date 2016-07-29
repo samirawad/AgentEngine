@@ -24,17 +24,14 @@ namespace GAgent.StandardEvents
                 ID = "GoTavern",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Tavern"; },
+                RequiredEntities = new List<string>(){
+                    "player"
+                },
                 IsValidDel = (world) => { 
-                    // Vaild if player exists, not at the current location, and not currently travelling
-                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
-                    if (player == null) return false;
+                    GameAgent player =  world.AllEntities["player"];
                     bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player != null ?
-                        player.S["Location"] != "tavern" ? true : false
-                        : false;
-                    bool notTravelling = player != null ?
-                        player.S["Destination"] == null ? true : false
-                        : false;
+                    bool notAtCurrentLocation = player.S["Location"] != "tavern" ? true : false;
+                    bool notTravelling = player.S["Destination"] == null ? true : false;
                     return atRest && notAtCurrentLocation && notTravelling;
                 }
             },
@@ -44,17 +41,15 @@ namespace GAgent.StandardEvents
                 ID = "GoMarket",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Market"; },
+                RequiredEntities = new List<string>(){
+                    "player"
+                },
                 IsValidDel = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
-                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
-                    if (player == null) return false;
+                    GameAgent player = world.AllEntities["player"];
                     bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player != null ?
-                        player.S["Location"] != "market" ? true : false
-                        : false;
-                    bool notTravelling = player != null ?
-                        player.S["Destination"] == null ? true : false
-                        : false;
+                    bool notAtCurrentLocation = player.S["Location"] != "market" ? true : false;
+                    bool notTravelling = player.S["Destination"] == null ? true : false;
                     return atRest && notAtCurrentLocation && notTravelling;
                 }
             },
@@ -63,17 +58,15 @@ namespace GAgent.StandardEvents
                 ID = "GoTemple",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Temple"; },
+                RequiredEntities = new List<string>(){
+                    "player"
+                },
                 IsValidDel = (world) => { 
                     // Vaild if player exists, not at the current location, and not currently travelling
-                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
-                    if (player == null) return false;
+                    GameAgent player = world.AllEntities["player"];
                     bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player != null ?
-                        player.S["Location"] != "temple" ? true : false
-                        : false;
-                    bool notTravelling = player != null ?
-                        player.S["Destination"] == null ? true : false
-                        : false;
+                    bool notAtCurrentLocation = player.S["Location"] != "temple" ? true : false;
+                    bool notTravelling = player.S["Destination"] == null ? true : false;
                     return atRest && notAtCurrentLocation && notTravelling;
                 }
             },

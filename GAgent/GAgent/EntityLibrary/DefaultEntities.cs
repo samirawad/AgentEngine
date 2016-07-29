@@ -24,6 +24,16 @@ namespace GAgent.EntityLibrary
             "Male","Female"
         };
 
+        /*
+         *   In addition to personality, a character is also defined by their worldview and motivation.
+         *   It would probably be good to find some way to describe this.  Might be fun to break it down into groups / individuals
+         *   and goals?  
+         *   
+         *   Goals: enrich, defy, protect, befriend, etc...
+         *   Groups or roles?:  rich, poor, race, family, religion, nationality, agressor, defender, etc...  
+         * 
+         */
+
        /*
         *   It might be interesting to not show all personality tags right away, perhaps only the obvious outward ones.
         *   That way we could discover character flaws through gameplay instead.
@@ -34,8 +44,8 @@ namespace GAgent.EntityLibrary
             new List<string>() {"warm","aloof"},   
             new List<string>() {"gregarious","shy"},
             new List<string>() {"assertive","unassertive"},
-            new List<string>() {"energetic","leisurely"},
-            new List<string>() {"adventurous","cautious"},
+            new List<string>() {"energetic","relaxed"},
+            new List<string>() {"adventurous","unadventurous"},
             new List<string>() {"cheerful","grim"},
             // Agreeableness
             new List<string>() {"trusting","distrustful"},
@@ -50,12 +60,12 @@ namespace GAgent.EntityLibrary
             new List<string>() {"responsible","irresponsible"},   
             new List<string>() {"ambitious","unambitious"},
             new List<string>() {"disciplined","undisciplined"},
-            new List<string>() {"brave","cowardly"},
+            new List<string>() {"reckless","cautious"},
             // Neuroticism
-            new List<string>() {"optimistic","pessimistic"}, // opinion about the future
-            new List<string>() {"patient","short-tempered"},
+            new List<string>() {"optimistic","anxious"}, // opinion about the future
+            new List<string>() {"calming","wrathful"}, // with people..
             new List<string>() {"lighthearted","melancholy"},   
-            new List<string>() {"secure","insecure"},
+            new List<string>() {"self-assured","insecure"},
             new List<string>() {"strong-willed","weak-willed"},
             new List<string>() {"composed","overwrought"}, // ability to handle present stress
             // Openness
