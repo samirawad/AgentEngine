@@ -51,6 +51,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selector.cs" />
+    <Compile Include="StandardEvents\DungeonEvents.cs" />
     <Compile Include="StandardEvents\EventTemplate.cs" />
     <Compile Include="StandardEvents\MarketAndInventoryEvents.cs" />
     <Compile Include="StandardEvents\PartyManagementEvents.cs" />

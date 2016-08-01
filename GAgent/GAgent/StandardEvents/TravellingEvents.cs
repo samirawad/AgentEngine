@@ -14,7 +14,8 @@ namespace GAgent.StandardEvents
             bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
             bool notAtCurrentLocation = player.S["Location"] != currentLocation ? true : false;
             bool notTravelling = player.S["Destination"] == null ? true : false;
-            return atRest && notAtCurrentLocation && notTravelling;
+            bool notAtDungeon = player.S["Location"] != "dungeon";
+            return atRest && notAtCurrentLocation && notTravelling && notAtDungeon;
         }
 
         public static List<GameAction> GameEvents = new List<GameAction>() { 

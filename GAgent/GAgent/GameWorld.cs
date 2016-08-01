@@ -59,6 +59,8 @@ namespace GAgent
             AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
             AllGameActions.AddRange(MarketAndInventoryEvents.GameEvents);
             AllOutcomes.AddRange(MarketAndInventoryEvents.GameEventOutcomes);
+            AllGameActions.AddRange(DungeonEvents.GameEvents);
+            AllOutcomes.AddRange(DungeonEvents.GameEventOutcomes);
         }
 
         public GameAgent GetAgentByID(string agentID)
