@@ -47,9 +47,9 @@ namespace GAgent
             {
                 AllEntities.Add(currEntity.S["Name"], currEntity);
             }
-            //AllGameActions.AddRange(SampleMemoryEventLib.GameEvents);
-            //AllOutcomes.AddRange(SampleMemoryEventLib.GameEventOutcomes);
-            
+            //AllGameActions.AddRange(SampleMemoryEvent.GameEvents);
+            //AllOutcomes.AddRange(SampleMemoryEvent.GameEventOutcomes);
+
             // Load the Game Event libraries we're using
             AllGameActions.AddRange(TravelingEvents.GameEvents);
             AllOutcomes.AddRange(TravelingEvents.GameEventOutcomes);

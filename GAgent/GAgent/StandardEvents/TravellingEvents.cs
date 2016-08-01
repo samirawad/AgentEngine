@@ -8,6 +8,15 @@ namespace GAgent.StandardEvents
 {
     public static class TravelingEvents
     {
+        private static bool ReadyToTravel(GameWorld world, string currentLocation)
+        {
+            GameAgent player = world.AllEntities["player"];
+            bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
+            bool notAtCurrentLocation = player.S["Location"] != currentLocation ? true : false;
+            bool notTravelling = player.S["Destination"] == null ? true : false;
+            return atRest && notAtCurrentLocation && notTravelling;
+        }
+
         public static List<GameAction> GameEvents = new List<GameAction>() { 
             new GameAction()
             {
@@ -21,6 +30,18 @@ namespace GAgent.StandardEvents
             },
             new GameAction()
             {
+                ID = "GoDungeon",
+                ShowOutcomes = true,
+                Description = (world) => { return "Go to the Dungeon"; },
+                RequiredEntities = new List<string>(){
+                    "player"
+                },
+                IsValidDel = (world) => {
+                    return ReadyToTravel(world, "dungeon");
+                }
+            },
+            new GameAction()
+            {
                 ID = "GoTavern",
                 ShowOutcomes = true,
                 Description = (world) => { return "Go to the Tavern"; },
@@ -28,14 +49,9 @@ namespace GAgent.StandardEvents
                     "player"
                 },
                 IsValidDel = (world) => { 
-                    GameAgent player =  world.AllEntities["player"];
-                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player.S["Location"] != "tavern" ? true : false;
-                    bool notTravelling = player.S["Destination"] == null ? true : false;
-                    return atRest && notAtCurrentLocation && notTravelling;
+                    return ReadyToTravel(world, "tavern");
                 }
             },
-
            new GameAction()
             {
                 ID = "GoMarket",
@@ -45,12 +61,7 @@ namespace GAgent.StandardEvents
                     "player"
                 },
                 IsValidDel = (world) => { 
-                    // Vaild if player exists, not at the current location, and not currently travelling
-                    GameAgent player = world.AllEntities["player"];
-                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player.S["Location"] != "market" ? true : false;
-                    bool notTravelling = player.S["Destination"] == null ? true : false;
-                    return atRest && notAtCurrentLocation && notTravelling;
+                    return ReadyToTravel(world, "market");
                 }
             },
             new GameAction()
@@ -62,12 +73,7 @@ namespace GAgent.StandardEvents
                     "player"
                 },
                 IsValidDel = (world) => { 
-                    // Vaild if player exists, not at the current location, and not currently travelling
-                    GameAgent player = world.AllEntities["player"];
-                    bool atRest = player.S["CurrentAction"] == "resting" ? true : false;
-                    bool notAtCurrentLocation = player.S["Location"] != "temple" ? true : false;
-                    bool notTravelling = player.S["Destination"] == null ? true : false;
-                    return atRest && notAtCurrentLocation && notTravelling;
+                    return ReadyToTravel(world, "temple");
                 }
             },
             new GameAction()
@@ -155,6 +161,26 @@ namespace GAgent.StandardEvents
                     sbResult.AppendLine("The adventurer has an uneventful trip to his destination!");
                     sbResult.AppendLine("He is now at: " + player.S["Location"]);
                     return sbResult.ToString();
+                }
+            },
+            new Outcome()
+            {
+                GetDescription = (source, world) => { return "Player will travel to the dungeon."; },
+                IsValid = (source, world) => {
+                    bool valid = source.ID == "GoDungeon" ? true : false;
+                    return valid;
+                },
+                PerformOutcome = (ref GameWorld world) => {
+                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    if (!player.S.ContainsKey("Destination"))
+                    {
+                        player.S.Add("Destination", "dungeon");
+                    }
+                    else
+                    {
+                        player.S["Destination"] = "dungeon";
+                    }
+                    return "The party embarks on their journey to the dungeon";
                 }
             },
             new Outcome()
