@@ -107,12 +107,12 @@ namespace GAgent.EntityLibrary
                 foreach (List<string> currTags in PersonalityTags)
                 {
                     int roll = rnd.Next(100);
-                    if (roll > 90)
+                    if (roll > 94)
                     {
                         string newTrait = currTags.ToArray()[rnd.Next(currTags.Count)];
                         if (!newEntity.T["Personality"].Contains(newTrait))
                         {
-                            if (roll > 97) newTrait = "profoundly " + newTrait;
+                            if (roll > 98) newTrait = "profoundly " + newTrait;
                             newEntity.T["Personality"].Add(newTrait);
                         }
                     }
@@ -122,8 +122,8 @@ namespace GAgent.EntityLibrary
             // Generate name based on gender
             string gender =  GenderTypes.ToArray()[rnd.Next(GenderTypes.Count)];
             MarkovNameGenerator nameGenerator = gender == "Male" ?
-                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-male-first.csv"), 2, 1) :
-                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-female-first.csv"), 2, 1);
+                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-male-first.csv"), 3, 1) :
+                new MarkovNameGenerator(File.ReadAllLines(@"EntityLibrary\census-dist-female-first.csv"), 3, 1);
             string newName = nameGenerator.NextName;
 
             newEntity.S = new Dictionary<string, string>() { 
