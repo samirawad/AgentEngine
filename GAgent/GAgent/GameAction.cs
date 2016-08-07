@@ -49,7 +49,7 @@ namespace GAgent
                 Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
                 foreach (Outcome currOutcome in validOutcomes)
                 {
-                    sbOutput.AppendLine(currOutcome.GetDescription(this, world));
+                    sbOutput.AppendLine(currOutcome.GetDescription(world));
                 }
             }
             else
@@ -66,15 +66,20 @@ namespace GAgent
              *  the world performed, we need to ensure that no further outcomes are valid and require performing.
              */
             Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
-            if (validOutcomes.Length > 0)
+            StringBuilder result = new StringBuilder();
+            while(validOutcomes.Length > 0)
             {
-                Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
-                return selected.PerformOutcome(ref world);
+                if (validOutcomes.Length > 0)
+                {
+                    Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
+                    result.AppendLine(selected.PerformOutcome(ref world));
+                }
+                else
+                {
+                    result.AppendLine("No possible outcomes for this event.");
+                }
             }
-            else
-            {
-                return "No possible outcomes for this event.";
-            }
+            return result.ToString();
         }
     }
 }

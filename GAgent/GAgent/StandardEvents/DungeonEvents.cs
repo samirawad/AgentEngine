@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GAgent.StandardEvents
 {
-    public static class DungeonEvents
+    public class DungeonEvents
     {
         #region Events
         public static List<GameAction> GameEvents = new List<GameAction>() {
@@ -29,54 +29,33 @@ namespace GAgent.StandardEvents
 
         #region Event Outcomes
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() {
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("DungeonStart");
-                },
-                PerformOutcome = (ref GameWorld world) => {
-                    StringBuilder sbResult = new StringBuilder();
-                    sbResult.Append("The party encounters a monster!");
-                    return sbResult.ToString();
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("DungeonStart");
-                },
-                PerformOutcome = (ref GameWorld world) => {
-                    StringBuilder sbResult = new StringBuilder();
-                    sbResult.Append("The party encounters an NPC!");
-                    return sbResult.ToString();
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("DungeonStart");
-                },
-                PerformOutcome = (ref GameWorld world) => {
-                    StringBuilder sbResult = new StringBuilder();
-                    sbResult.Append("The party encounters an interesting dungeon feature!");
-                    return sbResult.ToString();
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("DungeonStart");
-                },
-                PerformOutcome = (ref GameWorld world) => {
-                    StringBuilder sbResult = new StringBuilder();
-                    sbResult.Append("The party has an interaction!");
-                    return sbResult.ToString();
-                }
-            },
+            //new Outcome()
+            //{
+            //    ID = "DungeonEncounter",
+            //    GetDescription = (source, world) => { return "A possible encounter..."; },
+            //    IsValid = (world) => {
+            //        return world.IsCurrentAction("DungeonStart");
+            //    },
+            //    PerformOutcome = (ref GameWorld world) => {
+            //        StringBuilder sbResult = new StringBuilder();
+            //        sbResult.Append("The party begins their exploration...");
+            //        world.CurrentOutcomeID = "DungeonEncounter";
+            //        return sbResult.ToString();
+            //    }
+            //},
+            //new Outcome()
+            //{
+            //    ID = "DungeonEncounterMonster",
+            //    GetDescription = (source, world) => { return "A possible encounter..."; },
+            //    IsValid = (world) => {
+            //        return world.IsCurrentOutcome("DungeonStart");
+            //    },
+            //    PerformOutcome = (ref GameWorld world) => {
+            //        StringBuilder sbResult = new StringBuilder();
+            //        sbResult.Append("The party encounters a monster!");
+            //        return sbResult.ToString();
+            //    }
+            //},
         };
         #endregion
 

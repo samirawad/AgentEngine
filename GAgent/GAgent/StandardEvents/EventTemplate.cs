@@ -21,19 +21,24 @@ namespace GAgent.StandardEvents
         };
 
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() { 
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "description of the outcome"; },
-                IsValid = (world) => {
-                    bool valid = false; // function that determines if the outcome is valid
+            new Outcome(
+                "outcomeID",
+                // Description
+                (world) => { 
+                    return "description of the outcome";
+                },
+                // Validity
+                (world) => { 
+                    bool valid = false;
                     return valid;
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                // Outcome
+                (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
                     sbResult.Append("Perform the game logic here");
                     return sbResult.ToString();
                 }
-            }
+            ),
         };
     }
 }

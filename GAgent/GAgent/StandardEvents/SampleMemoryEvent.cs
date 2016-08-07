@@ -47,14 +47,15 @@ namespace GAgent.StandardEvents
 
         public static List<Outcome> GameEventOutcomes = new List<Outcome>()
         {
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "Collect memories"; },
-                IsValid = (world) => {
-                    bool valid = world.IsCurrentEvent("CollectMemories") ? true : false;
+            new Outcome("GetMemories",
+                (world) => {
+                    return "Collect memories";
+                },
+                (world) => {
+                    bool valid = world.IsCurrentAction("CollectMemories") ? true : false;
                     return valid;
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                (ref GameWorld world) => {
                     // generate actions for each entity
                     List<GameAgent> actorsToView = world.AllEntities // Checking for npc entities by the existence of a name key.  probably not the best way
                         .Where(e => e.Value.S.ContainsKey("Name"))
@@ -75,65 +76,58 @@ namespace GAgent.StandardEvents
 
                         if(!world.AllOutcomes.Any(o => o.ID == entityID)) // we can programmatically add new outcomes during execution.  This is powerful but potentially messy I think
                         {
-                            world.AllOutcomes.Add(new Outcome()
-                            {
-                                 ID = entityID,
-                                 GetDescription = (s, w) => { return "view memories of" + currEntity.S["Name"]; },
-                                 IsValid = (w) =>
-                                 {
-                                     bool valid = w.IsCurrentEvent(entityID) ? true : false;
-                                     return valid;
-                                 },
-                                 PerformOutcome = (ref GameWorld w) => 
-                                 {
-                                     StringBuilder sbResult = new StringBuilder();
-                                     sbResult.AppendLine("the memories of " + currEntity.S["Name"] + ": ");
-                                     // this foolishnes needs to be collected as a method and moved to GameEntity
-                                     sbResult.AppendLine(currEntity.GetOpinions());
-                                     return sbResult.ToString();
-                                 }
-                            });
+                            world.AllOutcomes.Add(
+                                    new Outcome(entityID,
+                                    (w) => { return "view memories of" + currEntity.S["Name"]; },
+                                    (w) =>
+                                     {
+                                         bool valid = w.IsCurrentAction(entityID) ? true : false;
+                                         return valid;
+                                     },
+                                    (ref GameWorld w) =>
+                                    {
+                                        StringBuilder sbResult = new StringBuilder();
+                                        sbResult.AppendLine("the memories of " + currEntity.S["Name"] + ": ");
+                                        // this foolishnes needs to be collected as a method and moved to GameEntity
+                                        sbResult.AppendLine(currEntity.GetOpinions());
+                                        return sbResult.ToString();
+                                    }
+                                    ));
                         }
                     }
                     return "entities collected";
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A friendly occurance"; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("FriendEvent00") ? true : false;
+                }),
+            new Outcome("FriendlyOutcome",
+                (world) => { 
+                    return "A friendly occurance";
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                (world) => {
+                    return world.IsCurrentAction("FriendEvent00") ? true : false;
+                },
+                (ref GameWorld world) => {
                     GameAgent niceagent = world.AllEntities["CuteFuzzy"];
                     GameAgent targetagent = world.AllEntities["InnocentBystander"];
-
                     Occurance newOccurance = new Occurance()
                     {
-                        Description = 
-                        niceagent.S["Name"] + " is nice to " + targetagent.S["Name"] + "!  How friendly.",
-
+                        Description = niceagent.S["Name"] + " is nice to " + targetagent.S["Name"] + "!  How friendly.",
                         OccuranceRoles = new Dictionary<string, HashSet<GameAgent>>()
-                        {
-                            {"Friendly", new HashSet<GameAgent>() { niceagent }},
-                            {"Friendtarget", new HashSet<GameAgent>() { targetagent }},
-                        }
-                    };
-
+                            {
+                                {"Friendly", new HashSet<GameAgent>() { niceagent }},
+                                {"Friendtarget", new HashSet<GameAgent>() { targetagent }},
+                            }};
                     niceagent.AddMemory(newOccurance);
                     targetagent.AddMemory(newOccurance);
-
                     return newOccurance.Description;
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "An aggresive occurence observed by multiple parties."; },
-                IsValid = (world) => {
-                    bool valid = world.IsCurrentEvent("AgressiveEvent00") ? true : false;
-                    return valid;
-                },
-                PerformOutcome = (ref GameWorld world) => {
+                }),
+            new Outcome("AgressiveOutcome",
+                    (world) => {
+                        return "An aggresive occurence observed by multiple parties.";
+                    },
+                    (world) => {
+                        bool valid = world.IsCurrentAction("AgressiveEvent00") ? true : false;
+                        return valid;
+                    },
+                    (ref GameWorld world) => {
                     // Select the participants of the outcome
                     GameAgent agressor = world.AllEntities["BigBully"];
                     GameAgent defender = world.AllEntities["CuteFuzzy"];
@@ -156,14 +150,8 @@ namespace GAgent.StandardEvents
                     agressor.AddMemory(newOccurnace);
                     defender.AddMemory(newOccurnace);
                     witness.AddMemory(newOccurnace);
-
-                    // Perform any changes to gamestate.
-                    // TODO: gamestate changes here.  not required for this sample occurance
                     return newOccurnace.Description;
-                }
-            }
+                })
         };
-
     }
-
 }

@@ -53,9 +53,7 @@
     <Compile Include="Selector.cs" />
     <Compile Include="StandardEvents\DungeonEvents.cs" />
     <Compile Include="StandardEvents\EventTemplate.cs" />
-    <Compile Include="StandardEvents\MarketAndInventoryEvents.cs" />
     <Compile Include="StandardEvents\PartyManagementEvents.cs" />
-    <Compile Include="StandardEvents\TravelEncounterEvents.cs" />
     <Compile Include="StandardEvents\TravellingEvents.cs" />
     <Compile Include="StandardEvents\SampleMemoryEvent.cs" />
     <Compile Include="EntityLibrary\Judgements.cs" />

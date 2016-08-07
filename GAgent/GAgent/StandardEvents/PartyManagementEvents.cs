@@ -93,20 +93,21 @@ namespace GAgent.StandardEvents
 
         public static List<Outcome> GameEventOutcomes = new List<Outcome>()
         {
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "View the party"; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("ViewParty");
+            new Outcome("ViewParty",
+                (world) => { // description
+                    return "View the party";
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                (world) => { // validity
+                    return world.IsCurrentAction("ViewParty");
+                },
+                (ref GameWorld world) => { // outcome
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
                     StringBuilder sbOut = new StringBuilder();
                     sbOut.AppendLine("Examining the party");
                     player.S["CurrentAction"] = "viewparty";
 
                     // Create the view party events for each party memeber if they don't exist
-                    List<GameAgent> partyMembers = world.AllEntities.Where(p => 
+                    List<GameAgent> partyMembers = world.AllEntities.Where(p =>
                         p.Value.T.ContainsKey("Conditions") ?
                         p.Value.T["Conditions"].Contains("InParty") : false)
                         .Select(p => p.Value).ToList();
@@ -129,38 +130,37 @@ namespace GAgent.StandardEvents
                                 },
                             });
 
-                           world.AllOutcomes.Add(new Outcome()
-                            {
-                                 ID = viewID,
-                                 GetDescription = (s, w) => { return "viewing " + currPartyMember.S["Name"]; },
-                                 IsValid = (w) =>
-                                 {
-                                     bool valid = w.IsCurrentEvent(viewID) ? true : false;
-                                     return valid;
-                                 },
-                                 PerformOutcome = (ref GameWorld w) => 
-                                 {
-                                     StringBuilder sbDescription = new StringBuilder();
-                                     sbDescription.AppendLine("Name: " + currPartyMember.S["Name"]);
-                                     sbDescription.AppendLine("Gender: " + currPartyMember.S["Gender"]);
-                                     sbDescription.AppendLine("Class: " + currPartyMember.S["Class"]);
-                                     sbDescription.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality"].ToArray()));
-                                     player.S["CurrentAction"] = "resting";
-                                     return sbDescription.ToString();
-                                 }
-                            });
+                           world.AllOutcomes.Add(
+                               new Outcome(viewID,
+                                    (w) => {
+                                        return "viewing " + currPartyMember.S["Name"];
+                                    },
+                                    (w) => {
+                                        bool valid = w.IsCurrentAction(viewID) ? true : false;
+                                        return valid;
+                                    },
+                                    (ref GameWorld w) => {
+                                        StringBuilder sbDescription = new StringBuilder();
+                                        sbDescription.AppendLine("Name: " + currPartyMember.S["Name"]);
+                                        sbDescription.AppendLine("Gender: " + currPartyMember.S["Gender"]);
+                                        sbDescription.AppendLine("Class: " + currPartyMember.S["Class"]);
+                                        sbDescription.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality"].ToArray()));
+                                        player.S["CurrentAction"] = "resting";
+                                        return sbDescription.ToString();
+                                    }
+                               ));
                         };
                     };
                     return sbOut.ToString();
-                }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A new adventurer is interviewed!"; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("Interview");
-                },
-                PerformOutcome = (ref GameWorld world) => {
+                }),
+            new Outcome("Interviewed",
+                    (world) => {
+                        return "A new adventurer is interviewed!";
+                    },
+                    (world) => {
+                        return world.IsCurrentAction("Interview");
+                    },
+                    (ref GameWorld world) => {
 
                     GameAgent player = world.GetAgentByID("Player");
                     GameAgent newEntity = EntityLibrary.DefaultEntities.GenerateEntity();
@@ -172,22 +172,23 @@ namespace GAgent.StandardEvents
 
                     world.AllRelations.Add(new GameEntityRelation()
                     {
-                        RelationSubject = player, 
+                        RelationSubject = player,
                         Relationship = "interviewing",
                         RelationObject = newEntity
                     });
-                    
+
                     world.AllEntities.Add(newEntity.S["Name"], newEntity);
                     return sbOut.ToString();
                 }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "A new adventurer is recruited!"; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("HireDecision");
+                ),
+            new Outcome("Recruited",
+                (world) => {
+                    return "A new adventurer is recruited!";
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                (world) => {
+                    return world.IsCurrentAction("HireDecision");
+                },
+                (ref GameWorld world) => {
                     
                     // retrieve the agent from the relation
                     StringBuilder sbOut = new StringBuilder();
@@ -199,21 +200,22 @@ namespace GAgent.StandardEvents
                     candidate.Tags = new HashSet<string>() { "partymember" };
                     
                     // Remove the candidate from relations
-                    GameEntityRelation candidateRelation = world.AllRelations.FirstOrDefault(c =>    
-                        c.RelationSubject == player &&    
+                    GameEntityRelation candidateRelation = world.AllRelations.FirstOrDefault(c =>
+                        c.RelationSubject == player &&
                         c.Relationship == "interviewing");
                     world.AllRelations.Remove(candidateRelation);
                     sbOut.AppendLine(candidate.S["Name"] + " joins the party!  Woot! Raise the roooooof.");
                     return sbOut.ToString();
                 }
-            },
-            new Outcome()
-            {
-                GetDescription = (source, world) => { return "rejected!"; },
-                IsValid = (world) => {
-                    return world.IsCurrentEvent("RejectDecision");
+            ),
+            new Outcome("Rejected",
+                (world) => {
+                    return "rejected!";
                 },
-                PerformOutcome = (ref GameWorld world) => {
+                (world) => {
+                    return world.IsCurrentAction("RejectDecision");
+                },
+                (ref GameWorld world) => {
                     // remove the agent from world and remove it's interview relation
                     StringBuilder sbOut = new StringBuilder();
                     GameAgent player = world.GetAgentByID("Player");
@@ -226,7 +228,7 @@ namespace GAgent.StandardEvents
                     sbOut.AppendLine(candidate.S["Name"] + " is rejected.");
                     return sbOut.ToString();
                 }
-            }
+                )
         };
     }
 }

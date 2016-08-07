@@ -26,13 +26,13 @@ namespace GAgent
 
         public Random RND = new Random();
 
-        public GameAction CurrentEvent = null;
+        public GameAction CurrentAction = null;
 
         public Outcome CurrentOutcome = null;
 
         public string LastOutcome;
 
-        public Dictionary<char, GameAction>  CurrentValidEvents = new Dictionary<char,GameAction>();
+        public Dictionary<char, GameAction> CurrentValidEvents = new Dictionary<char, GameAction>();
 
         public Dictionary<string, GameAgent> AllEntities = new Dictionary<string, GameAgent>();
 
@@ -47,7 +47,7 @@ namespace GAgent
             // TODO: Create starting entities with their relations.
             // an entity library which generates and adds entities to the world?
 
-            foreach(GameAgent currEntity in EntityLibrary.DefaultEntities.SampleEntities)
+            foreach (GameAgent currEntity in EntityLibrary.DefaultEntities.SampleEntities)
             {
                 AllEntities.Add(currEntity.S["Name"], currEntity);
             }
@@ -57,12 +57,8 @@ namespace GAgent
             // Load the Game Event libraries we're using
             AllGameActions.AddRange(TravelingEvents.GameEvents);
             AllOutcomes.AddRange(TravelingEvents.GameEventOutcomes);
-            AllGameActions.AddRange(TravelEncounterEvents.GameEvents);
-            AllOutcomes.AddRange(TravelEncounterEvents.GameEventOutcomes);
             AllGameActions.AddRange(PartyManagementEvents.GameEvents);
             AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
-            AllGameActions.AddRange(MarketAndInventoryEvents.GameEvents);
-            AllOutcomes.AddRange(MarketAndInventoryEvents.GameEventOutcomes);
             AllGameActions.AddRange(DungeonEvents.GameEvents);
             AllOutcomes.AddRange(DungeonEvents.GameEventOutcomes);
         }
@@ -80,7 +76,7 @@ namespace GAgent
             CurrentValidEvents.Clear();
             foreach (GameAction currEvent in AllGameActions)
             {
-                if(currEvent.IsValid(this))
+                if (currEvent.IsValid(this))
                 {
                     CurrentValidEvents.Add(Alphabet[keyIndex], currEvent);
                     sbResult.AppendLine(Alphabet[keyIndex] + ": " + currEvent.Description(this));
@@ -101,16 +97,17 @@ namespace GAgent
             return isValid;
         }
 
-        public bool IsCurrentEvent(string eventID)
+        public bool IsCurrentAction(string actionID)
         {
-            if(CurrentEvent == null)
+            if(CurrentAction == null)
             {
                 return false;
             }
             else
             {
-                return CurrentEvent.ID == eventID;
+                return CurrentAction.ID == actionID;
             }
+            
         }
 
         public bool IsCurrentOutcome(string outcomeID)
@@ -127,7 +124,7 @@ namespace GAgent
 
         public string DoEvent(char eventKey)
         {
-            CurrentEvent = CurrentValidEvents[eventKey];
+            CurrentAction = CurrentValidEvents[eventKey];
             LastOutcome = CurrentValidEvents[eventKey].SelectOutcome(this);
             return LastOutcome;
         }
