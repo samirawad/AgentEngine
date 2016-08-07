@@ -50,8 +50,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Collect memories"; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "CollectMemories" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("CollectMemories") ? true : false;
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -79,9 +79,9 @@ namespace GAgent.StandardEvents
                             {
                                  ID = entityID,
                                  GetDescription = (s, w) => { return "view memories of" + currEntity.S["Name"]; },
-                                 IsValid = (s, w) =>
+                                 IsValid = (w) =>
                                  {
-                                     bool valid = s.ID == entityID ? true : false;
+                                     bool valid = w.IsCurrentEvent(entityID) ? true : false;
                                      return valid;
                                  },
                                  PerformOutcome = (ref GameWorld w) => 
@@ -101,8 +101,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A friendly occurance"; },
-                IsValid = (source, world) => {
-                    return source.ID == "FriendEvent00" ? true : false;
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("FriendEvent00") ? true : false;
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     GameAgent niceagent = world.AllEntities["CuteFuzzy"];
@@ -129,8 +129,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "An aggresive occurence observed by multiple parties."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "AgressiveEvent00" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("AgressiveEvent00") ? true : false;
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {

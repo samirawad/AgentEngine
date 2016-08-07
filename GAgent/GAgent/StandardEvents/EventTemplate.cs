@@ -24,7 +24,7 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "description of the outcome"; },
-                IsValid = (source, world) => {
+                IsValid = (world) => {
                     bool valid = false; // function that determines if the outcome is valid
                     return valid;
                 },

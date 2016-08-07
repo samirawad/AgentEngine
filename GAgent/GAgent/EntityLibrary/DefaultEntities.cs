@@ -101,9 +101,10 @@ namespace GAgent.EntityLibrary
             GameAgent newEntity = new GameAgent();
             newEntity.T = new Dictionary<string, HashSet<string>>();
             newEntity.T.Add("Personality", new HashSet<string>());
-            // Ensure that the newly generated character has at least 3 traits.
-            while(newEntity.T["Personality"].Count < 3)
+            // Ensure that the newly generated character has at least 4 traits.
+            while(newEntity.T["Personality"].Count < 4)
             {
+                newEntity.T["Personality"].Clear();
                 foreach (List<string> currTags in PersonalityTags)
                 {
                     int roll = rnd.Next(100);

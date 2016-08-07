@@ -26,6 +26,10 @@ namespace GAgent
 
         public Random RND = new Random();
 
+        public GameAction CurrentEvent = null;
+
+        public Outcome CurrentOutcome = null;
+
         public string LastOutcome;
 
         public Dictionary<char, GameAction>  CurrentValidEvents = new Dictionary<char,GameAction>();
@@ -97,8 +101,33 @@ namespace GAgent
             return isValid;
         }
 
+        public bool IsCurrentEvent(string eventID)
+        {
+            if(CurrentEvent == null)
+            {
+                return false;
+            }
+            else
+            {
+                return CurrentEvent.ID == eventID;
+            }
+        }
+
+        public bool IsCurrentOutcome(string outcomeID)
+        {
+            if(CurrentOutcome == null)
+            {
+                return false;
+            }
+            else
+            {
+                return CurrentOutcome.ID == outcomeID;
+            }
+        }
+
         public string DoEvent(char eventKey)
         {
+            CurrentEvent = CurrentValidEvents[eventKey];
             LastOutcome = CurrentValidEvents[eventKey].SelectOutcome(this);
             return LastOutcome;
         }

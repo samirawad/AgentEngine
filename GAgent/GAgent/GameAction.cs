@@ -46,7 +46,7 @@ namespace GAgent
             StringBuilder sbOutput = new StringBuilder();
             if (ShowOutcomes)
             {
-                Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(this, world)).ToArray();
+                Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
                 foreach (Outcome currOutcome in validOutcomes)
                 {
                     sbOutput.AppendLine(currOutcome.GetDescription(this, world));
@@ -61,7 +61,11 @@ namespace GAgent
 
         public string SelectOutcome(GameWorld world)
         {
-            Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(this, world)).ToArray();
+            /*
+             *  Outcomes may chain together by ID.  Once an outcome is selected and it's effect on 
+             *  the world performed, we need to ensure that no further outcomes are valid and require performing.
+             */
+            Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
             if (validOutcomes.Length > 0)
             {
                 Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];

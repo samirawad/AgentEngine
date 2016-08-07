@@ -96,8 +96,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "View the party"; },
-                IsValid = (source, world) => {
-                    return source.ID == "ViewParty";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("ViewParty");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
@@ -133,9 +133,9 @@ namespace GAgent.StandardEvents
                             {
                                  ID = viewID,
                                  GetDescription = (s, w) => { return "viewing " + currPartyMember.S["Name"]; },
-                                 IsValid = (s, w) =>
+                                 IsValid = (w) =>
                                  {
-                                     bool valid = s.ID == viewID ? true : false;
+                                     bool valid = w.IsCurrentEvent(viewID) ? true : false;
                                      return valid;
                                  },
                                  PerformOutcome = (ref GameWorld w) => 
@@ -157,8 +157,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A new adventurer is interviewed!"; },
-                IsValid = (source, world) => {
-                    return source.ID == "Interview";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("Interview");
                 },
                 PerformOutcome = (ref GameWorld world) => {
 
@@ -184,10 +184,11 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A new adventurer is recruited!"; },
-                IsValid = (source, world) => {
-                    return source.ID == "HireDecision";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("HireDecision");
                 },
                 PerformOutcome = (ref GameWorld world) => {
+                    
                     // retrieve the agent from the relation
                     StringBuilder sbOut = new StringBuilder();
                     GameAgent player = world.GetAgentByID("Player");
@@ -196,6 +197,7 @@ namespace GAgent.StandardEvents
                         c.Relationship == "interviewing").RelationObject;
                     candidate.T["Conditions"].Add("InParty");
                     candidate.Tags = new HashSet<string>() { "partymember" };
+                    
                     // Remove the candidate from relations
                     GameEntityRelation candidateRelation = world.AllRelations.FirstOrDefault(c =>    
                         c.RelationSubject == player &&    
@@ -208,8 +210,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "rejected!"; },
-                IsValid = (source, world) => {
-                    return source.ID == "RejectDecision";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("RejectDecision");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     // remove the agent from world and remove it's interview relation

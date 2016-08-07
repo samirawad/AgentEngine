@@ -101,8 +101,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "The player will embark upon his adventure!"; } ,
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "Init" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("Init") ? true : false;
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -122,8 +122,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "...A possible encounter?";},
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "Travel" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("Travel");
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -143,8 +143,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "...A safe journey?"; },
-                IsValid = (source, world) => {
-                    bool isTravelling = source.ID == "Travel" ? true : false;
+                IsValid = (world) => {
+                    bool isTravelling = world.IsCurrentEvent("Travel");
                     return isTravelling;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -167,8 +167,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Player will travel to the dungeon."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "GoDungeon" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("GoDungeon");
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -187,8 +187,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Player will travel to the tavern."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "GoTavern" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("GoTavern");
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -207,8 +207,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Player will travel to the temple."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "GoTemple" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("GoTemple");
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -227,8 +227,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Player will travel to the market."; } ,
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "GoMarket" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("GoMarket");
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {

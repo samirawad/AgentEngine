@@ -27,8 +27,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Friendly encounter."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "Encounter" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("Encounter") ? true : false;
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {
@@ -52,8 +52,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A hostile encounter."; },
-                IsValid = (source, world) => {
-                    bool valid = source.ID == "Encounter" ? true : false;
+                IsValid = (world) => {
+                    bool valid = world.IsCurrentEvent("Encounter") ? true : false;
                     return valid;
                 },
                 PerformOutcome = (ref GameWorld world) => {

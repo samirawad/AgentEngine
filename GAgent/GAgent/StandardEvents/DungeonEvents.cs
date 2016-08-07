@@ -32,8 +32,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (source, world) => {
-                    return source.ID == "DungeonStart";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("DungeonStart");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
@@ -44,8 +44,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (source, world) => {
-                    return source.ID == "DungeonStart";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("DungeonStart");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
@@ -56,8 +56,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (source, world) => {
-                    return source.ID == "DungeonStart";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("DungeonStart");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
@@ -68,8 +68,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "A possible encounter..."; },
-                IsValid = (source, world) => {
-                    return source.ID == "DungeonStart";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("DungeonStart");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();

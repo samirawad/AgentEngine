@@ -46,8 +46,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Buy a sword"; },
-                IsValid = (source, world) => {
-                    return source.ID == "PurchaseSword";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("PurchaseSword");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
@@ -58,8 +58,8 @@ namespace GAgent.StandardEvents
             new Outcome()
             {
                 GetDescription = (source, world) => { return "Buy some armor"; },
-                IsValid = (source, world) => {
-                    return source.ID == "PurchaseArmor";
+                IsValid = (world) => {
+                    return world.IsCurrentEvent("PurchaseArmor");
                 },
                 PerformOutcome = (ref GameWorld world) => {
                     StringBuilder sbResult = new StringBuilder();
