@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace GAgent
 {
+    /*
+     *  The judgement of a game agent is based on:
+     *      - Who/what they are.  These are prejudices.
+     *      - What they've done. Judgements on memories.
+     */
     public struct AgentJudgement
     {
         public GameAgent JudgedEntity;

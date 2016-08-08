@@ -73,6 +73,14 @@ namespace GAgent
                 {
                     Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
                     result.AppendLine(selected.PerformOutcome(ref world));
+                    //Console.WriteLine(result.ToString());
+                    validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
+                    //Console.WriteLine("New potential outcomes: ");
+                    //foreach(var o in validOutcomes)
+                    //{
+                    //    Console.WriteLine(o.GetDescription(world));
+                    //}
+                    //Console.ReadKey();
                 }
                 else
                 {

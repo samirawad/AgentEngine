@@ -69,7 +69,16 @@ namespace GAgent
 
         public bool IsValid(GameWorld world)
         {
-            return _IsValid(world);
+            // It is invalid for an outcome to call itself.
+            if(world.CurrentOutcome == this)
+            {
+                return false;
+            }
+            else
+            {
+                return _IsValid(world);
+            }
+            
         }
 
         public string PerformOutcome(ref GameWorld world)
