@@ -73,31 +73,13 @@ namespace GAgent.StandardEvents
                     });
                     return "the adventurer arrives in town, entering the tavern.";
                 }),
-            new Outcome("GoDungeon",
-                (world) => { return "Player will travel to the dungeon."; },
-                (world) => {
-                    bool travelActionBegun = world.IsCurrentAction("GoDungeon");
-                    bool travelCompleted = world.IsCurrentOutcome("DungeonArrival");
-                    return travelActionBegun && !travelCompleted;
-                },
-                (ref GameWorld world) => {
-                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
-                    if (!player.S.ContainsKey("Destination"))
-                    {
-                        player.S.Add("Destination", "dungeon");
-                    }
-                    else
-                    {
-                        player.S["Destination"] = "dungeon";
-                    }
-                    world.CurrentAction = null;
-                    return "The party embarks on their journey to the dungeon";
-                }),
                 new Outcome("MonsterEncounter", new HashSet<string> { "TravelEncounter" },
                 (world) => { return "Monster encounter"; },
                 (world) => {
-                    bool valid = world.IsCurrentOutcome("GoDungeon");
-                    return valid;
+                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
+                    bool startTravelling = world.IsCurrentAction("GoDungeon");
+                    bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
+                    return (startTravelling || stillTravelling) && hasNotArrivedYet;
                 },
                 (ref GameWorld world) => {
                     return "The party encounters a monster on the way to the dungeon";
@@ -105,8 +87,10 @@ namespace GAgent.StandardEvents
                 new Outcome("NPCEncounter",new HashSet<string> { "TravelEncounter" },
                 (world) => { return "NPC encounter."; },
                 (world) => {
-                    bool valid = world.IsCurrentOutcome("GoDungeon");
-                    return valid;
+                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
+                    bool startTravelling = world.IsCurrentAction("GoDungeon");
+                    bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
+                    return (startTravelling || stillTravelling) && hasNotArrivedYet;
                 },
                 (ref GameWorld world) => {
                     return "The party encounters an NPC on the way to the dungeon";
@@ -114,8 +98,10 @@ namespace GAgent.StandardEvents
                 new Outcome("VistaEncounter",new HashSet<string> { "TravelEncounter" },
                 (world) => { return "Vista encounter."; },
                 (world) => {
-                    bool valid = world.IsCurrentOutcome("GoDungeon");
-                    return valid;
+                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
+                    bool startTravelling = world.IsCurrentAction("GoDungeon");
+                    bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
+                    return (startTravelling || stillTravelling) && hasNotArrivedYet;
                 },
                 (ref GameWorld world) => {
                     return "The party encounters a beautiful vista on the way to the dungeon";
@@ -124,8 +110,8 @@ namespace GAgent.StandardEvents
                 (world) => { return "Dungeon arrival"; },
                 (world) => {
                     // the last outcome was a travel event.
-                    bool valid = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
-                    return valid;
+                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
+                    return stillTravelling;
                 },
                 (ref GameWorld world) => {
                     GameAgent player = world.AllEntities["player"];

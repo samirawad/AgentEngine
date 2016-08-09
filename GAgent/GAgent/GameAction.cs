@@ -66,26 +66,29 @@ namespace GAgent
              *  the world performed, we need to ensure that no further outcomes are valid and require performing.
              */
             Outcome[] validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
+            Console.WriteLine("Current valid outcomes: ");
+            foreach (var o in validOutcomes)
+            {
+                Console.WriteLine(" - " + o.GetDescription(world));
+            }
             StringBuilder result = new StringBuilder();
             while(validOutcomes.Length > 0)
             {
-                if (validOutcomes.Length > 0)
+                Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
+                result.AppendLine(selected.PerformOutcome(ref world));
+                Console.WriteLine("Current outcome log: ");
+                Console.WriteLine(result.ToString());
+                validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
+                Console.WriteLine("New potential outcomes: ");
+                if(validOutcomes.Length == 0)
                 {
-                    Outcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
-                    result.AppendLine(selected.PerformOutcome(ref world));
-                    //Console.WriteLine(result.ToString());
-                    validOutcomes = world.AllOutcomes.Where(o => o.IsValid(world)).ToArray();
-                    //Console.WriteLine("New potential outcomes: ");
-                    //foreach(var o in validOutcomes)
-                    //{
-                    //    Console.WriteLine(o.GetDescription(world));
-                    //}
-                    //Console.ReadKey();
+                    Console.WriteLine("No further outcomes for this event.  Continuing to next game action.");
                 }
-                else
+                else foreach (var o in validOutcomes)
                 {
-                    result.AppendLine("No possible outcomes for this event.");
+                    Console.WriteLine(" - " + o.GetDescription(world));
                 }
+                Console.ReadKey();
             }
             return result.ToString();
         }

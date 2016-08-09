@@ -49,7 +49,8 @@ namespace GAgent
                             Console.Clear();
                         }
                     }
-                    else // only one valid event.  Show description, detail, possible outcomes, then just do it.
+                    // only one valid event.  Show description, detail, possible outcomes, then just do it.
+                    else if(WorldEngine.CurrentValidEvents.Count == 1)
                     {
                         Console.WriteLine(WorldEngine.CurrentValidEvents.First().Value.Description(WorldEngine));
                         Console.WriteLine(WorldEngine.ListEventOutcomes(WorldEngine.CurrentValidEvents.First().Key));
@@ -57,6 +58,11 @@ namespace GAgent
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey(true);
                         WorldEngine.DoEvent(WorldEngine.CurrentValidEvents.First().Key);
+                    
+                    }  
+                    else // There is probably something wrong.
+                    {
+                        Console.WriteLine("There are no valid events!");        
                     }
                     
                 }
