@@ -100,21 +100,22 @@ namespace GAgent.EntityLibrary
         {
             GameAgent newEntity = new GameAgent();
             newEntity.T = new Dictionary<string, HashSet<string>>();
+            newEntity.T.Add("Personality_hidden", new HashSet<string>());
             newEntity.T.Add("Personality", new HashSet<string>());
             // Ensure that the newly generated character has at least 4 traits.
-            while(newEntity.T["Personality"].Count < 4)
+            while (newEntity.T["Personality_hidden"].Count < 4)
             {
-                newEntity.T["Personality"].Clear();
+                newEntity.T["Personality_hidden"].Clear();
                 foreach (List<string> currTags in PersonalityTags)
                 {
                     int roll = rnd.Next(100);
                     if (roll > 94)
                     {
                         string newTrait = currTags.ToArray()[rnd.Next(currTags.Count)];
-                        if (!newEntity.T["Personality"].Contains(newTrait))
+                        if (!newEntity.T["Personality_hidden"].Contains(newTrait))
                         {
                             if (roll > 98) newTrait = "profoundly " + newTrait;
-                            newEntity.T["Personality"].Add(newTrait);
+                            newEntity.T["Personality_hidden"].Add(newTrait);
                         }
                     }
                 }

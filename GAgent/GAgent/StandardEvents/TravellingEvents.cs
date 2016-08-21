@@ -55,13 +55,15 @@ namespace GAgent.StandardEvents
         };
 
         public static List<Outcome> GameEventOutcomes = new List<Outcome>() { 
-            new Outcome("StartAdventure",
-                (world) => { return "The player will embark upon his adventure!"; } ,
-                (world) => {
+            new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "StartAdventure",
+                DescriptionFunction = (world) => { return "The player will embark upon his adventure!"; } ,
+                ValidityFunction = (world) => {
                     bool doingInit = world.IsCurrentAction("Init") ? true : false;
                     return doingInit;
                 },
-                (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     world.AllEntities.Add("player", new GameAgent() { 
                         // Initialize the player
                         S = new Dictionary<string,string>() {
@@ -72,53 +74,69 @@ namespace GAgent.StandardEvents
                         }
                     });
                     return "the adventurer arrives in town, entering the tavern.";
-                }),
-                new Outcome("MonsterEncounter", new HashSet<string> { "TravelEncounter" },
-                (world) => { return "Monster encounter"; },
-                (world) => {
+                }
+            }),
+            new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "MonsterEncounter",
+                Tags =  new HashSet<string> { "TravelEncounter" },
+                DescriptionFunction = (world) => { return "Monster encounter"; },
+                ValidityFunction = (world) => {
                     bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
                     bool startTravelling = world.IsCurrentAction("GoDungeon");
                     bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
                     return (startTravelling || stillTravelling) && hasNotArrivedYet;
                 },
-                (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     return "The party encounters a monster on the way to the dungeon";
-                }),
-                new Outcome("NPCEncounter",new HashSet<string> { "TravelEncounter" },
-                (world) => { return "NPC encounter."; },
-                (world) => {
+                }
+            }),
+                        new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "VistaEncounter",
+                Tags =  new HashSet<string> { "TravelEncounter" },
+                DescriptionFunction = (world) => { return "Vista encounter"; },
+                ValidityFunction = (world) => {
                     bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
                     bool startTravelling = world.IsCurrentAction("GoDungeon");
                     bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
                     return (startTravelling || stillTravelling) && hasNotArrivedYet;
                 },
-                (ref GameWorld world) => {
-                    return "The party encounters an NPC on the way to the dungeon";
-                }),
-                new Outcome("VistaEncounter",new HashSet<string> { "TravelEncounter" },
-                (world) => { return "Vista encounter."; },
-                (world) => {
-                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
-                    bool startTravelling = world.IsCurrentAction("GoDungeon");
-                    bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
-                    return (startTravelling || stillTravelling) && hasNotArrivedYet;
-                },
-                (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     return "The party encounters a beautiful vista on the way to the dungeon";
-                }),
-                new Outcome("DungeonArrival",
-                (world) => { return "Dungeon arrival"; },
-                (world) => {
+                }
+            }),
+            new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "NPCEncounter",
+                Tags =  new HashSet<string> { "TravelEncounter" },
+                DescriptionFunction = (world) => { return "NPC encounter"; },
+                ValidityFunction = (world) => {
+                    bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
+                    bool startTravelling = world.IsCurrentAction("GoDungeon");
+                    bool hasNotArrivedYet = !world.IsCurrentOutcome("DungeonArrival");
+                    return (startTravelling || stillTravelling) && hasNotArrivedYet;
+                },
+                OutcomeFunction = (ref GameWorld world) => {
+                    return "The party encounters an NPC on the way to the dungeon";
+                }
+            }),
+            new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "DungeonArrival",
+                DescriptionFunction = (world) => { return "Dungeon arrival"; },
+                ValidityFunction = (world) => {
                     // the last outcome was a travel event.
                     bool stillTravelling = world.CurrentOutcome != null ? world.CurrentOutcome.HasTag("TravelEncounter") : false;
                     return stillTravelling;
                 },
-                (ref GameWorld world) => {
+                OutcomeFunction =  (ref GameWorld world) => {
                     GameAgent player = world.AllEntities["player"];
                     player.S["Location"] = "dungeon";
                     player.S["Destination"] = null;
                     return "The party arrives at the dungeon";
-                })
+                }
+            }),
         };
     }
 }

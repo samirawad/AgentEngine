@@ -15,24 +15,24 @@ namespace GAgent
     // Holds the function which alters gamestate, it will be run if the outcome is valid
     public delegate string PerformOutcomeDelegate(ref GameWorld world);
 
+    public struct OutcomeParams
+    {
+        public string OutcomeID;
+        public HashSet<string> Tags;
+        public OutcomeDescriptionDelegate DescriptionFunction;
+        public OutcomeIsValidDelegate ValidityFunction;
+        public PerformOutcomeDelegate OutcomeFunction;
+    }
+
     public class Outcome
     {
-        public Outcome(string inID, OutcomeDescriptionDelegate descriptionDelegate, OutcomeIsValidDelegate isOutcomeValidDelegate, PerformOutcomeDelegate performOutcomeDelegate)
+        public Outcome(OutcomeParams o)
         {
-            _ID = inID;
-            _Tags = new HashSet<string>();
-            _GetDescription = descriptionDelegate;
-            _IsValid = isOutcomeValidDelegate;
-            _PerformOutcome = performOutcomeDelegate;
-        }
-
-        public Outcome(string inID, HashSet<string> inTags, OutcomeDescriptionDelegate descriptionDelegate, OutcomeIsValidDelegate isOutcomeValidDelegate, PerformOutcomeDelegate performOutcomeDelegate)
-        {
-            _ID = inID;
-            _Tags = inTags;
-            _GetDescription = descriptionDelegate;
-            _IsValid = isOutcomeValidDelegate;
-            _PerformOutcome = performOutcomeDelegate;
+            _ID = o.OutcomeID;
+            _Tags = o.Tags != null ? o.Tags : new HashSet<string>();
+            _GetDescription = o.DescriptionFunction;
+            _IsValid = o.ValidityFunction;
+            _PerformOutcome = o.OutcomeFunction;
         }
 
         private string _ID;

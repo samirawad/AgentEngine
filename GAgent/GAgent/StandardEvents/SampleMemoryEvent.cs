@@ -47,15 +47,16 @@ namespace GAgent.StandardEvents
 
         public static List<Outcome> GameEventOutcomes = new List<Outcome>()
         {
-            new Outcome("GetMemories",
-                (world) => {
+            new Outcome(new OutcomeParams() {
+                OutcomeID = "GetMemories",
+                DescriptionFunction = (w) => {
                     return "Collect memories";
                 },
-                (world) => {
-                    bool valid = world.IsCurrentAction("CollectMemories") ? true : false;
+                ValidityFunction = (w) => {
+                    bool valid = w.IsCurrentAction("CollectMemories") ? true : false;
                     return valid;
                 },
-                (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     // generate actions for each entity
                     List<GameAgent> actorsToView = world.AllEntities // Checking for npc entities by the existence of a name key.  probably not the best way
                         .Where(e => e.Value.S.ContainsKey("Name"))
@@ -77,34 +78,38 @@ namespace GAgent.StandardEvents
                         if(!world.AllOutcomes.Any(o => o.ID == entityID)) // we can programmatically add new outcomes during execution.  This is powerful but potentially messy I think
                         {
                             world.AllOutcomes.Add(
-                                    new Outcome(entityID,
-                                    (w) => { return "view memories of" + currEntity.S["Name"]; },
-                                    (w) =>
+                                    new Outcome(new OutcomeParams()
+                                    {
+                                        OutcomeID =  entityID,
+                                        DescriptionFunction = (w) => { return "view memories of" + currEntity.S["Name"]; },
+                                        ValidityFunction = (w) =>
                                      {
                                          bool valid = w.IsCurrentAction(entityID) ? true : false;
                                          return valid;
                                      },
-                                    (ref GameWorld w) =>
+                                        OutcomeFunction = (ref GameWorld w) =>
                                     {
                                         StringBuilder sbResult = new StringBuilder();
                                         sbResult.AppendLine("the memories of " + currEntity.S["Name"] + ": ");
                                         // this foolishnes needs to be collected as a method and moved to GameEntity
                                         sbResult.AppendLine(currEntity.GetOpinions());
                                         return sbResult.ToString();
-                                    }
-                                    ));
+                                    }}));
                         }
                     }
                     return "entities collected";
-                }),
-            new Outcome("FriendlyOutcome",
-                (world) => { 
+                }
+            }),
+            new Outcome(new OutcomeParams()
+            {
+                OutcomeID = "FriendlyOutcome",
+                DescriptionFunction = (world) => {
                     return "A friendly occurance";
                 },
-                (world) => {
+                ValidityFunction = (world) => {
                     return world.IsCurrentAction("FriendEvent00") ? true : false;
                 },
-                (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     GameAgent niceagent = world.AllEntities["CuteFuzzy"];
                     GameAgent targetagent = world.AllEntities["InnocentBystander"];
                     Occurance newOccurance = new Occurance()
@@ -118,18 +123,20 @@ namespace GAgent.StandardEvents
                     niceagent.AddMemory(newOccurance);
                     targetagent.AddMemory(newOccurance);
                     return newOccurance.Description;
-                }),
-            new Outcome("AgressiveOutcome",
-                    (world) => {
+                }
+            }),
+            new Outcome(new OutcomeParams() {
+                OutcomeID = "AgressiveOutcome",
+                DescriptionFunction = (world) => {
                         return "An aggresive occurence observed by multiple parties.";
                     },
-                    (world) => {
+                ValidityFunction = (world) => {
                         bool valid = world.IsCurrentAction("AgressiveEvent00") ? true : false;
                         return valid;
                     },
-                    (ref GameWorld world) => {
+                OutcomeFunction = (ref GameWorld world) => {
                     // Select the participants of the outcome
-                    GameAgent agressor = world.AllEntities["BigBully"];
+                    GameAgent aggressor = world.AllEntities["BigBully"];
                     GameAgent defender = world.AllEntities["CuteFuzzy"];
                     GameAgent witness = world.AllEntities["InnocentBystander"];
 
@@ -137,21 +144,22 @@ namespace GAgent.StandardEvents
                     Occurance newOccurnace = new Occurance()
                     {
                         Description =
-                        agressor.S["Name"] +
+                        aggressor.S["Name"] +
                         " is mean to " + defender.S["Name"] +
                         " while " + witness.S["Name"] + " observes.",
 
                         OccuranceRoles = new Dictionary<string, HashSet<GameAgent>>()
                         {
-                            {"Agressor", new HashSet<GameAgent>() { agressor }},
+                            {"Agressor", new HashSet<GameAgent>() { aggressor }},
                             {"Victim", new HashSet<GameAgent>() { defender }}
                         }
                     };
-                    agressor.AddMemory(newOccurnace);
+                    aggressor.AddMemory(newOccurnace);
                     defender.AddMemory(newOccurnace);
                     witness.AddMemory(newOccurnace);
                     return newOccurnace.Description;
-                })
+                }
+            })
         };
     }
 }
