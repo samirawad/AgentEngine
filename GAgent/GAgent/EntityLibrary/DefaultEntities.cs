@@ -91,7 +91,6 @@ namespace GAgent.EntityLibrary
             new List<string>() {"graceful","clumsy"},
             new List<string>() {"hardy","frail"},
             new List<string>() {"thin","fat"},
-            new List<string>() {"skilled","unskilled"},
         };
 
         // A generalized entity generator which assembles entities from random properties and tags

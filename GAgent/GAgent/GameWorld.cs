@@ -30,7 +30,7 @@ namespace GAgent
 
         public Outcome CurrentOutcome = null;
 
-        public string LastOutcome;
+        public string LastOutcomeLog;
 
         public Dictionary<char, GameAction> CurrentValidEvents = new Dictionary<char, GameAction>();
 
@@ -125,8 +125,8 @@ namespace GAgent
         public string DoEvent(char eventKey)
         {
             CurrentAction = CurrentValidEvents[eventKey];
-            LastOutcome = CurrentValidEvents[eventKey].SelectOutcome(this);
-            return LastOutcome;
+            LastOutcomeLog = CurrentValidEvents[eventKey].SelectOutcome(this);
+            return LastOutcomeLog;
         }
     }
 

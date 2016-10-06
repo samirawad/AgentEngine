@@ -11,9 +11,14 @@ namespace GAgent
 
     public delegate string EventTextDelegate(GameWorld world);
 
+
     /*
      * The idea behind a game action is that it's selectable.  It's available based on the state of the game world, and representes a decision point 
      * for the player.
+     * 
+     * Determining if an action is available, or an outcome is possible is broken down into two parts.
+     * - A set of entities which must be selected for checking
+     * - Checking the status / relationships of these entities.
      */
     public class GameAction
     {
@@ -33,8 +38,6 @@ namespace GAgent
         
         public bool IsValid(GameWorld world)
         {
-            // If all the required agents exist, and the validity delegate passes, the action is valid.
-            // Defaults to true if there are no required entities.
             bool allAgentsExist = RequiredEntities != null ? RequiredEntities.All(r => world.AllEntities.ContainsKey(r)) : true ;
             return allAgentsExist && IsValidDel(world);
         }

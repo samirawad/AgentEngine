@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameCondition.cs" />
     <Compile Include="EntityLibrary\DefaultEntities.cs" />
     <Compile Include="GameAction.cs" />
     <Compile Include="GameAgent.cs" />

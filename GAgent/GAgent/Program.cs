@@ -19,7 +19,7 @@ namespace GAgent
                 {
 
                     // Show the possible actions
-                    Console.WriteLine(WorldEngine.LastOutcome);
+                    Console.WriteLine(WorldEngine.LastOutcomeLog);
                     string validEvents = WorldEngine.GetValidEvents();
 
                     // If there is only one possible valid event, it's detail and potential outcomes are displayed instead.

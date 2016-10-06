@@ -15,9 +15,10 @@ namespace GAgent.StandardEvents
                 ID = "Interview",
                 ShowOutcomes = true,
                 Description = (world) => { return "Recruit a new adventurer"; },
+                RequiredEntities = new List<string>(){ "player" },
                 IsValidDel = (world) => {
                     // Valid if the player is resting at the tavern
-                    GameAgent player =  world.AllEntities.ContainsKey("player") ? world.AllEntities["player"] : null;
+                    GameAgent player = world.AllEntities["player"];
                     bool notExaminingParty = player != null ?
                             player.S["CurrentAction"] == "resting" ? true : false
                             : false;
@@ -148,7 +149,7 @@ namespace GAgent.StandardEvents
                                         sbDescription.AppendLine("Name: " + currPartyMember.S["Name"]);
                                         sbDescription.AppendLine("Gender: " + currPartyMember.S["Gender"]);
                                         sbDescription.AppendLine("Class: " + currPartyMember.S["Class"]);
-                                        sbDescription.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality"].ToArray()));
+                                        sbDescription.AppendLine("Personality: " + string.Join(", ", currPartyMember.T["Personality_hidden"].ToArray()));
                                         player.S["CurrentAction"] = "resting";
                                         return sbDescription.ToString();
                                     }
@@ -174,7 +175,7 @@ namespace GAgent.StandardEvents
                     sbOut.AppendLine("Name: " + newEntity.S["Name"]);
                     sbOut.AppendLine("Gender: " + newEntity.S["Gender"]);
                     sbOut.AppendLine("Class: " + newEntity.S["Class"]);
-                    sbOut.AppendLine("Personality: " + string.Join(", ", newEntity.T["Personality"].ToArray()));
+                    sbOut.AppendLine("Personality: " + string.Join(", ", newEntity.T["Personality_hidden"].ToArray()));
 
                     w.AllRelations.Add(new GameEntityRelation()
                     {
