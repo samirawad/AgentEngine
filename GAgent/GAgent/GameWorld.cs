@@ -10,7 +10,7 @@ namespace GAgent
 {
     // Relationships between objects are stored using this struct.  Querying and altering these relationships
     // is one of the main implementations of game state.
-    public struct GameEntityRelation
+    public struct GameAgentRelation
     {
         public GameAgent RelationSubject;
 
@@ -28,44 +28,47 @@ namespace GAgent
 
         public GameAction CurrentAction = null;
 
-        public Outcome CurrentOutcome = null;
+        public GameOutcome CurrentOutcome = null;
 
         public string LastOutcomeLog;
 
         public Dictionary<char, GameAction> CurrentValidEvents = new Dictionary<char, GameAction>();
 
-        public Dictionary<string, GameAgent> AllEntities = new Dictionary<string, GameAgent>();
+        public Dictionary<string, GameAgent> AllAgents = new Dictionary<string, GameAgent>();
 
-        public List<GameEntityRelation> AllRelations = new List<GameEntityRelation>();
+        public List<GameAgentRelation> AllRelations = new List<GameAgentRelation>();
 
         public List<GameAction> AllGameActions = new List<GameAction>();
 
-        public List<Outcome> AllOutcomes = new List<Outcome>();
+        public List<GameOutcome> AllGameOutcomes = new List<GameOutcome>();
 
         public GameWorld()
         {
             // TODO: Create starting entities with their relations.
             // an entity library which generates and adds entities to the world?
 
-            foreach (GameAgent currEntity in EntityLibrary.DefaultEntities.SampleEntities)
-            {
-                AllEntities.Add(currEntity.S["Name"], currEntity);
-            }
+            //foreach (GameAgent currEntity in EntityLibrary.DefaultEntities.SampleEntities)
+            //{
+            //    AllEntities.Add(currEntity.S["Name"], currEntity);
+            //}
             //AllGameActions.AddRange(SampleMemoryEvent.GameEvents);
             //AllOutcomes.AddRange(SampleMemoryEvent.GameEventOutcomes);
 
             // Load the Game Event libraries we're using
-            AllGameActions.AddRange(TravelingEvents.GameEvents);
-            AllOutcomes.AddRange(TravelingEvents.GameEventOutcomes);
-            AllGameActions.AddRange(PartyManagementEvents.GameEvents);
-            AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
-            AllGameActions.AddRange(DungeonEvents.GameEvents);
-            AllOutcomes.AddRange(DungeonEvents.GameEventOutcomes);
+            //AllGameActions.AddRange(TravelingEvents.GameEvents);
+            //AllOutcomes.AddRange(TravelingEvents.GameEventOutcomes);
+            //AllGameActions.AddRange(PartyManagementEvents.GameEvents);
+            //AllOutcomes.AddRange(PartyManagementEvents.GameEventOutcomes);
+            //AllGameActions.AddRange(DungeonEvents.GameEvents);
+            //AllOutcomes.AddRange(DungeonEvents.GameEventOutcomes);
+
+            AllGameActions.AddRange(TravelActions.Actions);
+            AllGameOutcomes.AddRange(TravelActions.Outcomes);
         }
 
         public GameAgent GetAgentByID(string agentID)
         {
-            return AllEntities.ContainsKey(agentID) ? AllEntities[agentID] : null;
+            return AllAgents.ContainsKey(agentID) ? AllAgents[agentID] : null;
         }
 
         // Return a string describing which events are currently valid, while populating the CurrentValidEvents dictionary.
@@ -122,7 +125,7 @@ namespace GAgent
             }
         }
 
-        public string DoEvent(char eventKey)
+        public string DoGameAction(char eventKey)
         {
             CurrentAction = CurrentValidEvents[eventKey];
             LastOutcomeLog = CurrentValidEvents[eventKey].SelectOutcome(this);

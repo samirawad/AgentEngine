@@ -42,22 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentSelector.cs" />
+    <Compile Include="ConditionOperator.cs" />
     <Compile Include="GameCondition.cs" />
     <Compile Include="EntityLibrary\DefaultEntities.cs" />
     <Compile Include="GameAction.cs" />
     <Compile Include="GameAgent.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="MarkovNameGenerator.cs" />
-    <Compile Include="Outcome.cs" />
+    <Compile Include="GameOutcome.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selector.cs" />
-    <Compile Include="StandardEvents\DungeonEvents.cs" />
-    <Compile Include="StandardEvents\EventTemplate.cs" />
-    <Compile Include="StandardEvents\PartyManagementEvents.cs" />
-    <Compile Include="StandardEvents\TravellingEvents.cs" />
-    <Compile Include="StandardEvents\SampleMemoryEvent.cs" />
     <Compile Include="EntityLibrary\Judgements.cs" />
+    <Compile Include="StandardEvents\TravelActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

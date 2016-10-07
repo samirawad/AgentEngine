@@ -41,7 +41,7 @@ namespace GAgent
                             if (currCommand.Key == ConsoleKey.Enter)
                             {
                                 Console.Clear();
-                                WorldEngine.DoEvent(commandChar);
+                                WorldEngine.DoGameAction(commandChar);
                             }
                         }
                         else
@@ -57,12 +57,13 @@ namespace GAgent
                         Console.WriteLine("--------------------------------------------------------------");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey(true);
-                        WorldEngine.DoEvent(WorldEngine.CurrentValidEvents.First().Key);
+                        WorldEngine.DoGameAction(WorldEngine.CurrentValidEvents.First().Key);
                     
                     }  
                     else // There is probably something wrong.
                     {
-                        Console.WriteLine("There are no valid events!");        
+                        Console.WriteLine("There are no valid events!");
+                        Console.ReadKey(true);
                     }
                     
                 }
