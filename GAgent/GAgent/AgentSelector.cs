@@ -14,6 +14,7 @@ namespace GAgent
         private string ID;
         private string Description;
         private AgentSelectorDelegate Selector;
+        private bool _debug = false;
 
         public AgentSelector(string inId, string inDesc, AgentSelectorDelegate inSelector)
         {
@@ -22,12 +23,20 @@ namespace GAgent
             Selector = inSelector;
         }
 
+        public AgentSelector(string inId, string inDesc, AgentSelectorDelegate inSelector, bool inDebug)
+        {
+            ID = inId;
+            Description = inDesc;
+            Selector = inSelector;
+            _debug = inDebug;
+        }
+
         public Dictionary<string, GameAgent> GetAgents(GameWorld world)
         {
             Dictionary<string, GameAgent> result = null;
             //Console.WriteLine("Selector '" + Description + "': ");
             result = Selector(world);
-            Console.WriteLine("    Selector '" + Description + "': " + (result != null ? " - " + result.Count + " values " : " - RETURNED NULL"));
+            if(_debug) Console.WriteLine("    Selector '" + Description + "': " + (result != null ? " - " + result.Count + " values " : " - RETURNED NULL"));
             return result;
         }
     }

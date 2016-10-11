@@ -11,12 +11,11 @@ namespace GAgent
 
     public class Condition
     {
-        private ConditionOperator Operation;
         private ConditonDelegate ValidCondition;
         private AgentSelector Selector;
-        private List<Condition> Conditions;
         private string Description;
         private string ID;
+        private bool _debug = false;
 
         public Condition(string id, string inDescription, AgentSelector inSelector, ConditonDelegate inDel)
         {
@@ -24,16 +23,15 @@ namespace GAgent
             Description = inDescription;
             ValidCondition = inDel;
             Selector = inSelector;
-            Conditions = null;
         }
 
-        public Condition(string id, string inDescription, ConditionOperator inOperation, List<Condition> inConditions)
+        public Condition(string id, string inDescription, AgentSelector inSelector, ConditonDelegate inDel, bool Debug)
         {
             ID = id;
             Description = inDescription;
-            Conditions = inConditions;
-            Operation = inOperation;
-            ValidCondition = null;
+            ValidCondition = inDel;
+            Selector = inSelector;
+            _debug = Debug;
         }
 
         public bool IsValid(GameWorld w)
@@ -41,22 +39,15 @@ namespace GAgent
             // The validity of a condtion is either the validcondtion, or the operation on the subconditions.
             // Console.WriteLine("Condtion '" + Description + "': ");
             bool result;
-            if (ValidCondition != null)
+            if(Selector != null)
             {
-                if(Selector != null)
-                {
-                    result = ValidCondition(Selector.GetAgents(w), w);
-                }
-                else
-                {
-                    result = ValidCondition(null, w);
-                }
+                result = ValidCondition(Selector.GetAgents(w), w);
             }
             else
             {
-                result = Operation.IsValid(Conditions, w);
+                result = ValidCondition(null, w);
             }
-            Console.WriteLine("    Condtion '" + Description + "': " + (result == true ? " - TRUE " : " - FALSE "));
+            if(_debug) Console.WriteLine("    Condtion '" + Description + "': " + (result == true ? " - TRUE " : " - FALSE "));
             return result;
         }
     }

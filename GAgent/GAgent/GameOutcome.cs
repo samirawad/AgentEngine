@@ -19,6 +19,7 @@ namespace GAgent
         public OutcomeDescriptionDelegate DescriptionFunction;
         public Condition ValidityCondition;
         public PerformOutcomeDelegate OutcomeFunction;
+        public bool Debug;
     }
 
     public class GameOutcome
@@ -30,6 +31,7 @@ namespace GAgent
             _GetDescription = o.DescriptionFunction;
             _IsValidCondition = o.ValidityCondition;
             _PerformOutcome = o.OutcomeFunction;
+            _debug = o.Debug;
         }
 
         private string _ID;
@@ -37,6 +39,7 @@ namespace GAgent
         private Condition _IsValidCondition;
         private PerformOutcomeDelegate _PerformOutcome;
         private OutcomeDescriptionDelegate _GetDescription;
+        private bool _debug = false;
         
         public Dictionary<string, GameAgent> AgentParams; // When an outcome is selected, certain agents might be under consideration
         public Dictionary<string, long> N = new Dictionary<string, long>();  // numeric values, used as parameters to be accessed by conditions and outcomes
@@ -68,19 +71,24 @@ namespace GAgent
             return _GetDescription(world);
         }
 
+        public void log(string message)
+        {
+            if (_debug) Console.WriteLine(message);
+        }
+
         public bool IsValid(GameWorld world)
         {
             // It is invalid for an outcome to call itself.
             if(world.CurrentOutcome == this)
             {
-                //Console.WriteLine("Outcome '" + GetDescription(world) + "' tried to call itself!");
+                log("Outcome '" + GetDescription(world) + "' cannot call itself");
                 return false;
             }
             else
             {
-                Console.WriteLine("Outcome '" + GetDescription(world) + "':");
+                log("Outcome '" + GetDescription(world) + "':");
                 bool result = _IsValidCondition.IsValid(world);
-                Console.WriteLine("Outcome '" + GetDescription(world) + "': " + (result ? " - TRUE " : " - FALSE "));
+                log("Outcome '" + GetDescription(world) + "': " + (result ? " - TRUE " : " - FALSE "));
                 return result;
             }
             

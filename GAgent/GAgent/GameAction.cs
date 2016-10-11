@@ -19,6 +19,7 @@ namespace GAgent
         public Dictionary<string, string> StringParams;
         public bool ShowOutcomes;
         public Condition ValidityCondition;
+        public bool Debug;
     }
     /*
      * The idea behind a game action is that it's selectable.  It's available based on the state of the game world, and representes a decision point 
@@ -40,6 +41,7 @@ namespace GAgent
         private Dictionary<string, GameAgent> _agentParams; // When an action is selected, certain agents might be under consideration
         private bool _showoutcomes;
         private Condition _validitycondition;
+        private bool _debug = false;
 
         public GameAction(GameActionParams g)
         {
@@ -50,13 +52,16 @@ namespace GAgent
             _agentParams = g.AgentParams;
             _showoutcomes = g.ShowOutcomes;
             _validitycondition = g.ValidityCondition;
+            S = g.StringParams;
+            N = g.NumericParams;
+            _debug = g.Debug;
         }
         
         public bool IsValid(GameWorld world)
         {
-            Console.WriteLine("Action '" + Description(world) + "':");
+            log("Action '" + Description(world) + "':");
             bool result = _validitycondition.IsValid(world);
-            Console.WriteLine("Action '" + Description(world) + "': " + (result ? " - TRUE " : " - FALSE "));
+            log("Action '" + Description(world) + "': " + (result ? " - TRUE " : " - FALSE "));
             return result;
         }
 
@@ -68,6 +73,11 @@ namespace GAgent
         public string ID
         {
             get { return _id; }
+        }
+
+        public void log(string message)
+        {
+            if (_debug) Console.WriteLine(message);
         }
 
         public string ListOutcomes(GameWorld world)
@@ -97,10 +107,10 @@ namespace GAgent
              *  the world performed, we need to ensure that no further outcomes are valid and require performing.
              */
             GameOutcome[] validOutcomes = world.AllGameOutcomes.Where(o => o.IsValid(world)).ToArray();
-            Console.WriteLine("Current valid outcomes: ");
+            log("Current valid outcomes: ");
             foreach (var o in validOutcomes)
             {
-                Console.WriteLine(" - " + o.GetDescription(world));
+                log(" - " + o.GetDescription(world));
             }
             StringBuilder result = new StringBuilder();
             while(validOutcomes.Length > 0)
@@ -114,20 +124,20 @@ namespace GAgent
                 result.AppendLine(selected.PerformOutcome(ref world));
 
                 // logging crap.  move this to a dedicated logger
-                Console.WriteLine("Current outcome log: ");
-                Console.WriteLine(result.ToString());
+                log("Current outcome log: ");
+                log(result.ToString());
                 
                 // Determine 
                 validOutcomes = world.AllGameOutcomes.Where(o => o.IsValid(world)).ToArray();
                 
-                Console.WriteLine("New potential outcomes: ");
+                log("New potential outcomes: ");
                 if(validOutcomes.Length == 0)
                 {
-                    Console.WriteLine("No further outcomes for this event.  Continuing to next game action.");
+                    log("No further outcomes for this event.  Continuing to next game action.");
                 }
                 else foreach (var o in validOutcomes)
                 {
-                    Console.WriteLine(" - " + o.GetDescription(world));
+                    log(" - " + o.GetDescription(world));
                 }
             }
             Console.ReadKey();
