@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GAgent</RootNamespace>
     <AssemblyName>GAgent</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,10 @@
     <Compile Include="GameAction.cs" />
     <Compile Include="GameAgent.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="Judgements\AgentJudgement.cs" />
+    <Compile Include="Judgements\DefaultJudgements.cs" />
+    <Compile Include="Judgements\Occurance.cs" />
+    <Compile Include="Judgements\RoleJudgement.cs" />
     <Compile Include="MarkovNameGenerator.cs" />
     <Compile Include="GameOutcome.cs" />
     <Compile Include="Program.cs" />

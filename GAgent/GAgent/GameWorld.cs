@@ -62,6 +62,9 @@ namespace GAgent
             //AllGameActions.AddRange(DungeonEvents.GameEvents);
             //AllOutcomes.AddRange(DungeonEvents.GameEventOutcomes);
 
+            // 1. Initialize the world from the setup file
+            // 2. Read all actions and outcomes
+
             AllGameActions.AddRange(TravelActions.Actions);
             AllGameOutcomes.AddRange(TravelActions.Outcomes);
         }

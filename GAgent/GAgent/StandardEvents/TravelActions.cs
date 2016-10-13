@@ -11,7 +11,9 @@ namespace GAgent.StandardEvents
         public static AgentSelector playerSelector = new AgentSelector("selector_player", "Selects the player",
             w =>
             {
-                return new Dictionary<string, GameAgent>() { { "player", w.AllAgents.ContainsKey("player") ? w.AllAgents["player"] : null } };
+                return new Dictionary<string, GameAgent>() { 
+                { "player", w.AllAgents.ContainsKey("player") ? w.AllAgents["player"] : null } 
+                };
             });
 
         public static Condition playerDoesntExist = new Condition("condition_playerexists", "the player does not exist",
@@ -28,18 +30,21 @@ namespace GAgent.StandardEvents
                 return !isTravelling.IsValid(world);
             });
 
-        public static Condition isTravelling = new Condition("condition_nottraveling", "player is travelling",
+        public static Condition isTravelling = new Condition("condition_traveling", "player is travelling",
             playerSelector,
             (selector, world) =>
             {
                 // player is travelling if the current action contains a destination parameter
-                return 
-                    world.CurrentAction != null ? 
-                        world.CurrentAction.S != null ?
-                            world.CurrentAction.S.ContainsKey("Destination") 
-                        : false 
-                    : false;
-            });
+                /*
+                 * BROKE AF. FIX PLS. MESSING AROUND WITH DYNAMIC OBJECTS
+                 */
+
+                bool result = false;
+                if (world.CurrentAction != null)
+                    if (world.CurrentAction.Params != null)
+                        result = (world.CurrentAction.Params as dynamic).Destination != null;
+                return result;
+            },true);
 
         public static Condition selectDestination = new Condition("condition_travelselected", "player is selecting a destination",
             null,
@@ -77,25 +82,19 @@ namespace GAgent.StandardEvents
                 ID = "action_travel_dungeon",
                 Description = w => {return "Travel to the dungeon";},
                 ValidityCondition = selectDestination,
-                StringParams = new Dictionary<string,string>(){ 
-                    { "Destination", "dungeon" } 
-                }
+                Parameters = new { Destination = "dungeon"}
            }),
            new GameAction(new GameActionParams(){
                 ID = "action_travel_temple",
                 Description = w => {return "Travel to the temple";},
                 ValidityCondition = selectDestination,
-                StringParams = new Dictionary<string,string>(){ 
-                    { "Destination", "temple" } 
-                }
+                Parameters = new { Destination = "temple"}
            }),
            new GameAction(new GameActionParams(){
                 ID = "action_travel_market",
                 Description = w => {return "Travel to the market";},
                 ValidityCondition = selectDestination,
-                StringParams = new Dictionary<string,string>(){ 
-                    { "Destination", "market" } 
-                }
+                Parameters = new { Destination = "market"}
            })
 
         };
@@ -137,7 +136,7 @@ namespace GAgent.StandardEvents
                 DescriptionFunction = (world) => { return "The player continues on his journey"; },
                 ValidityCondition = isTravelling,
                 OutcomeFunction = (ref GameWorld world) => {
-                    string dest = world.CurrentAction.S["Destination"];
+                    string dest = (world.CurrentAction.Params as dynamic).Destination as string;
                     return "The player continues on his journey to: " + dest;
                 }
             })

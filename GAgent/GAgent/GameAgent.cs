@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GAgent.Judgements;
 
 namespace GAgent
 {
     public class GameAgent
     {
-        public Dictionary<string, long> N = new Dictionary<string,long>();  // numeric values
+        public Dictionary<string, long> N = new Dictionary<string, long>();  // numeric values
 
-        public Dictionary<string, string> S = new Dictionary<string,string>() ; // string values
+        public Dictionary<string, string> S = new Dictionary<string, string>(); // string values
 
-        public Dictionary<string, HashSet<string>> T = new Dictionary<string,HashSet<string>>(); // tagsets
+        public Dictionary<string, HashSet<string>> T = new Dictionary<string, HashSet<string>>(); // tagsets
 
         public HashSet<string> Tags = new HashSet<string>();
+
+        public Object Params;
 
         public List<RoleJudgement> Morals = new List<RoleJudgement>();
         
@@ -41,6 +44,7 @@ namespace GAgent
             return result;
         }
 
+        // Judging a memory is to judge the role of each participant in the memory
         public List<AgentJudgement> JudgeMemory(Occurance memoryToJudge)
         {
             List<AgentJudgement> result = new List<AgentJudgement>();
@@ -53,6 +57,8 @@ namespace GAgent
             return result;
         }
 
+        // Judging a role is to check that role to any morals that the agent might posesses
+        // which reference that role
         public List<AgentJudgement> JudgeRole(Occurance memoryToJudge, string roleToJudge)
         {
             List<AgentJudgement> AgentJudgements = new List<AgentJudgement>();

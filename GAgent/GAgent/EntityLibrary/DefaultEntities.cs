@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using GAgent.Judgements;
 
 namespace GAgent.EntityLibrary
 {
@@ -135,7 +136,7 @@ namespace GAgent.EntityLibrary
             newEntity.T.Add("Conditions", new HashSet<string>());
 
             // Add default judgements
-            newEntity.Morals = JudgementLibrary.DefaultJudgements;
+            newEntity.Morals = DefaultJudgements.Judgements;
 
             return newEntity;
         }
@@ -152,7 +153,7 @@ namespace GAgent.EntityLibrary
                  {
                      {"Traits", new HashSet<string>() { "Agressive" }}
                  },
-                 Morals = JudgementLibrary.DefaultJudgements
+                 Morals = DefaultJudgements.Judgements
             },
             new GameAgent()
             {
@@ -164,7 +165,7 @@ namespace GAgent.EntityLibrary
                  {
                      {"Traits", new HashSet<string>() { "Peaceful" }}
                  },
-                 Morals = JudgementLibrary.DefaultJudgements
+                 Morals = DefaultJudgements.Judgements
             },
             new GameAgent()
             {
@@ -172,7 +173,7 @@ namespace GAgent.EntityLibrary
                  {
                      {"Name","InnocentBystander"}
                  },
-                 Morals = JudgementLibrary.DefaultJudgements
+                 Morals = DefaultJudgements.Judgements
             },
         };
     }

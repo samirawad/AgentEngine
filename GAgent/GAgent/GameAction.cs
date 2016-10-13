@@ -15,8 +15,9 @@ namespace GAgent
         public EventTextDelegate Description;
         public EventTextDelegate Detail;
         public Dictionary<string, GameAgent> AgentParams;
-        public Dictionary<string, long> NumericParams;
-        public Dictionary<string, string> StringParams;
+        //public Dictionary<string, long> NumericParams;
+        //public Dictionary<string, string> StringParams;
+        public object Parameters;
         public bool ShowOutcomes;
         public Condition ValidityCondition;
         public bool Debug;
@@ -31,14 +32,15 @@ namespace GAgent
      */
     public class GameAction
     {
-        public Dictionary<string, long> N = new Dictionary<string, long>();  // numeric values, used as parameters to be accessed by conditions and outcomes
-        public Dictionary<string, string> S = new Dictionary<string, string>(); // string values, used as parameters to be accessed by conditions and outcomes
+        //public Dictionary<string, long> N = new Dictionary<string, long>();  // numeric values, used as parameters to be accessed by conditions and outcomes
+        //public Dictionary<string, string> S = new Dictionary<string, string>(); // string values, used as parameters to be accessed by conditions and outcomes
 
         private string _id;
         private HashSet<string> _tags;                      // I guess these would help if we want to have certain groups of actions be valid by tag?  I haven't used this yet?
         private EventTextDelegate _description;             // This is what is displayed at the selection stage.
         private EventTextDelegate _detail;                  // When an action is selected, before it is confirmed, more detail is provided here.
         private Dictionary<string, GameAgent> _agentParams; // When an action is selected, certain agents might be under consideration
+        private dynamic _Params;
         private bool _showoutcomes;
         private Condition _validitycondition;
         private bool _debug = false;
@@ -52,9 +54,10 @@ namespace GAgent
             _agentParams = g.AgentParams;
             _showoutcomes = g.ShowOutcomes;
             _validitycondition = g.ValidityCondition;
-            S = g.StringParams;
-            N = g.NumericParams;
+            //S = g.StringParams;
+            //N = g.NumericParams;
             _debug = g.Debug;
+            Params = g.Parameters;
         }
         
         public bool IsValid(GameWorld world)
@@ -75,6 +78,11 @@ namespace GAgent
             get { return _id; }
         }
 
+        public object Params
+        {
+            get { return _Params; }
+            set { _Params = value; }
+        }
         public void log(string message)
         {
             if (_debug) Console.WriteLine(message);
@@ -140,7 +148,6 @@ namespace GAgent
                     log(" - " + o.GetDescription(world));
                 }
             }
-            Console.ReadKey();
             return result.ToString();
         }
     }
