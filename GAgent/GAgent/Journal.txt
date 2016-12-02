@@ -1,0 +1,55 @@
+﻿Selectors
+ - return collections of gameagents in a dictionary
+ - The agents can then be refered to by their key in the Conditions where they are used.
+
+Conditions
+ - use selectors and a reference to the world to determine if some condition is true
+ - All conditions need to be some kind of boolean expression which makes a statement about the status or relationships of one or more objects in the gameworld.
+
+Actions
+ - A set of conditions determines what actions are currently selectable by the user
+ - An action may be defined with parameters to give additional context to the action
+	- these parameters might also use a selector? This isn't in yet, deciding if this is required.
+
+Outcomes
+ - After an action is selected, a set of conditions determines which outcomes are valid.  If more than one is valid, one is selected randomly.
+ - An outcome alters world and agent state, by changing properties and relationships.
+
+Saving State / persistence:
+ - currently looking at embedded document databases for this?
+ - also tried a recursive dictionary?
+ - How about the local version of dynamodb?  Also helpful in upgrading skills.  I should actually do it this way.
+ - I want to save db queries to file so I can use them to construct conditions and selectors.
+ - Persistence will mean that agent memories will have to be saved along with world state.  Memories are typed classes.
+ - Might want to consider that at some point in the future, we won't want to load all the actions/outcomes at once. some kind of deferred loading.
+
+Relationships:
+ - The idea of a relationship, defined in gameworld, might be used in selectors.
+ - We might want a selector like:
+	- objects with property a:
+	- set of objects with relationship b to a.
+ - when a relationship is defined, we would also define the inverse of that relationship.
+	ex: agent a is father of b implies b is son of a.
+	- To ensure that this inverse relation is preserved, we would have to make sure that when a relationships are created/destroyed it's through a function.
+
+
+It really seems to me that what I actually want is some kind of structured query language for JSON.  If I had such a thing, I could implement the conditions, actions,
+and outcomes using it?  The reason it would have to be a language is so I could save the functions outside of the program.  Ultimately, I want to define conditions, actions,
+and outcomes as scripts outside of the main engine.
+
+We could use Jobjects from JSON to represent the game objects, and would provide us with a way to script these object outside of the engine.
+We still need a way to save the logic for selectors and conditions in a script.
+
+I think I definitely COULD use JSON, but perhaps it's best that selectors, conditions, actions and outcomes are coded in c#. We probably need the benefit of syntax highlighting and 
+static typechecking.  I should consider how I could separate the engine from the game, while keeping both c#.
+
+
+
+
+
+ 
+ 
+ 
+
+
+

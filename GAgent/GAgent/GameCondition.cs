@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GAgent
 {
     // A condition delegate examines the selection to determine if it meets a condition.
-    public delegate bool ConditonDelegate(Dictionary<string, GameAgent> selection, GameWorld g);
+    public delegate bool ConditonDelegate(Dictionary<string, List<GameAgent>> selection, GameWorld g);
 
     public class Condition
     {
@@ -41,7 +41,16 @@ namespace GAgent
             bool result;
             if(Selector != null)
             {
-                result = ValidCondition(Selector.GetAgents(w), w);
+                Dictionary<string, List<GameAgent>> selected = Selector.GetAgents(w);
+                if(selected == null)
+                {
+                    if (_debug) Console.WriteLine("    Condtion '" + Description + "' failed at selection.  No agents returned.");
+                    result = false;
+                }
+                else
+                {
+                    result = ValidCondition(Selector.GetAgents(w), w);
+                }
             }
             else
             {

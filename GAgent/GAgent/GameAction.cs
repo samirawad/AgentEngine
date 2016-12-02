@@ -8,6 +8,61 @@ namespace GAgent
 {
     public delegate string EventTextDelegate(GameWorld world);
 
+    public struct recursiveDict
+    {
+        public Dictionary<string, recursiveDict> P; // for properties
+        public List<recursiveDict> L; // for lists of properties
+        public Dictionary<string, double> N; // for numeric values
+        public Dictionary<string, string> S; // for string values
+    }
+
+    // Well, I guess this could be my database?
+    // Honestly, I should just use JSON as a store then.  Easy to manipulate and store
+    public class recursiveDictTester
+    {
+        public recursiveDictTester()
+        {
+            recursiveDict myRD = new recursiveDict()
+            {
+                L =
+                {
+                    new recursiveDict()
+                    {
+                        S = { {"StringProperty1", "stringvalue1" } }
+                    },
+                    new recursiveDict()
+                    {
+                        N = { {"Numberprop1", 1 } }
+                    },
+                },
+                S =
+                {
+                    {"Name", "AgentName" },
+                },
+                N =
+                {
+                    {"Age", 38 }
+                },
+                P = 
+                {
+                    { "Tools", new recursiveDict()
+                        {
+                            S =
+                            {
+                                { "ToolName", "Hammer" }
+                            },
+                            N =
+                            {
+                                { "ToolWeight", 200 }
+                            }
+                        }
+                    }
+                }
+            };
+            var myToolWeight = myRD.P["Tools"].N["ToolWeight"];
+        }
+    }
+
     public struct GameActionParams
     {
         public string ID;
@@ -40,7 +95,7 @@ namespace GAgent
         private EventTextDelegate _description;             // This is what is displayed at the selection stage.
         private EventTextDelegate _detail;                  // When an action is selected, before it is confirmed, more detail is provided here.
         private Dictionary<string, GameAgent> _agentParams; // When an action is selected, certain agents might be under consideration
-        private dynamic _Params;
+        private object _Params;
         private bool _showoutcomes;
         private Condition _validitycondition;
         private bool _debug = false;

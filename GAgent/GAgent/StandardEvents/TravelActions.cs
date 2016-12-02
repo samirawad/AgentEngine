@@ -8,36 +8,38 @@ namespace GAgent.StandardEvents
 {
     public static class TravelActions
     {
-        public static AgentSelector playerSelector = new AgentSelector("selector_player", "Selects the player",
+        public static AgentSelector playerSelector = new AgentSelector(
+            "selector_player", "Selects the player",
             w =>
             {
-                return new Dictionary<string, GameAgent>() { 
-                { "player", w.AllAgents.ContainsKey("player") ? w.AllAgents["player"] : null } 
+                return new Dictionary<string, List<GameAgent>>() { 
+                    { "player", new List<GameAgent>() { w.AllAgents.ContainsKey("player") ? w.AllAgents["player"] : null } } 
                 };
             });
 
-        public static Condition playerDoesntExist = new Condition("condition_playerexists", "the player does not exist",
+        public static Condition playerDoesntExist = new Condition(
+            "condition_playerexists", "the player does not exist",
             playerSelector,
             (selector, world) =>
             {
                 return selector["player"] == null;
             });
 
-        public static Condition notTravelling = new Condition("condition_nottraveling", "player is not travelling",
+        public static Condition notTravelling = new Condition(
+            "condition_nottraveling", "player is not travelling",
             null,
             (selector, world) =>
             {
                 return !isTravelling.IsValid(world);
             });
 
-        public static Condition isTravelling = new Condition("condition_traveling", "player is travelling",
+        public static Condition isTravelling = new Condition(
+            "condition_traveling", "player is travelling",
             playerSelector,
             (selector, world) =>
             {
                 // player is travelling if the current action contains a destination parameter
-                /*
-                 * BROKE AF. FIX PLS. MESSING AROUND WITH DYNAMIC OBJECTS
-                 */
+                // trying dynamic objects.  Dont actually like this.
 
                 bool result = false;
                 if (world.CurrentAction != null)
@@ -46,14 +48,16 @@ namespace GAgent.StandardEvents
                 return result;
             },true);
 
-        public static Condition selectDestination = new Condition("condition_travelselected", "player is selecting a destination",
+        public static Condition selectDestination = new Condition(
+            "condition_travelselected", "player is selecting a destination",
             null,
             (selector, world) =>
             {
                 return world.IsCurrentAction("action_selectdestination");
             });
 
-        public static Condition readyToTravel = new Condition("condition_travelselected", "player is ready to begin travelling",
+        public static Condition readyToTravel = new Condition(
+            "condition_travelselected", "player is ready to begin travelling",
             null,
             (selector, world) =>
             {

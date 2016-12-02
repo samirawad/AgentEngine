@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace GAgent
 {
     // A selector delegate returns a selection of agents from the gameworld, accessible through a dictionary
-    public delegate Dictionary<string, GameAgent> AgentSelectorDelegate(GameWorld world);
+    public delegate Dictionary<string, List<GameAgent>> AgentSelectorDelegate(GameWorld world);
 
     public class AgentSelector
     {
@@ -31,11 +31,9 @@ namespace GAgent
             _debug = inDebug;
         }
 
-        public Dictionary<string, GameAgent> GetAgents(GameWorld world)
+        public Dictionary<string, List<GameAgent>> GetAgents(GameWorld world)
         {
-            Dictionary<string, GameAgent> result = null;
-            //Console.WriteLine("Selector '" + Description + "': ");
-            result = Selector(world);
+            Dictionary<string, List<GameAgent>> result = Selector(world);
             if(_debug) Console.WriteLine("    Selector '" + Description + "': " + (result != null ? " - " + result.Count + " values " : " - RETURNED NULL"));
             return result;
         }

@@ -10,14 +10,7 @@ namespace GAgent
 {
     // Relationships between objects are stored using this struct.  Querying and altering these relationships
     // is one of the main implementations of game state.
-    public struct GameAgentRelation
-    {
-        public GameAgent RelationSubject;
 
-        public GameAgent RelationObject;
-
-        public string Relationship;
-    }
 
     // Behold, the smallest game engine evah
     public class GameWorld
@@ -36,7 +29,7 @@ namespace GAgent
 
         public Dictionary<string, GameAgent> AllAgents = new Dictionary<string, GameAgent>();
 
-        public List<GameAgentRelation> AllRelations = new List<GameAgentRelation>();
+        public List<GameAgentRelationship> AllRelations = new List<GameAgentRelationship>();
 
         public List<GameAction> AllGameActions = new List<GameAction>();
 
