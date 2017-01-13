@@ -15,7 +15,6 @@ namespace GAgent
         private AgentSelector Selector;
         private string Description;
         private string ID;
-        private bool _debug = false;
 
         public Condition(string id, string inDescription, AgentSelector inSelector, ConditonDelegate inDel)
         {
@@ -23,15 +22,6 @@ namespace GAgent
             Description = inDescription;
             ValidCondition = inDel;
             Selector = inSelector;
-        }
-
-        public Condition(string id, string inDescription, AgentSelector inSelector, ConditonDelegate inDel, bool Debug)
-        {
-            ID = id;
-            Description = inDescription;
-            ValidCondition = inDel;
-            Selector = inSelector;
-            _debug = Debug;
         }
 
         public bool IsValid(GameWorld w)
@@ -44,7 +34,6 @@ namespace GAgent
                 Dictionary<string, List<GameAgent>> selected = Selector.GetAgents(w);
                 if(selected == null)
                 {
-                    if (_debug) Console.WriteLine("    Condtion '" + Description + "' failed at selection.  No agents returned.");
                     result = false;
                 }
                 else
@@ -56,7 +45,6 @@ namespace GAgent
             {
                 result = ValidCondition(null, w);
             }
-            if(_debug) Console.WriteLine("    Condtion '" + Description + "': " + (result == true ? " - TRUE " : " - FALSE "));
             return result;
         }
     }

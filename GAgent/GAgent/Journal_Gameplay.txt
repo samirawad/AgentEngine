@@ -1,0 +1,35 @@
+Game loop like:
+- Set initial conditions.  Choose and prep the team
+- Run the event:
+	- Events occur based on team composition, environment, and inventory
+- Repeat
+
+Mission types. Each of these triggered by agent traits and  agent/world conditions.
+- Scouting
+	- Find new agents
+	- Find new quests
+- Quest deployments.
+- Base events.
+
+Not all of the steps must be followed exatly, but this should give a general outline on how I would like to structure events.
+Breaking down event flow:
+	1. Agents are presented with a dramatic situation.  An issue requires resolution.
+	2. Agents respond to the situation:
+		a. Each has an emotional response to the situation.
+		b. Each make a judgement call on the other agent's response.
+	3. An action is taken to resolve the issue, by consensus or not.
+	4. Memories, Judgements, and Emotional Responses resolved for each Agent.
+
+Events:
+- Promotion / Demotion
+
+Gameplay concepts:
+- I've already laid the groundwork for judgements and memories.  When agents are generated, they have a set of traits which will first be hidden.  When a (combination) of traits triggers
+an event, this also reveals the trait.  The idea is so this works kinda like a scene in a story where characters get to know each other.
+- This should provide a guide for creating events, because we have lists of traits which we can use as inspiration.
+
+Combat:
+The essence of balanced conflict is reading the strategy of your opponent correctly, and choosing a response.
+- There should be many types of strats, some of which might branch
+- For each strat, there should be multiple, perhaps branching, counters.
+

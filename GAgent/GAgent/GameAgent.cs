@@ -7,6 +7,7 @@ using GAgent.Judgements;
 
 namespace GAgent
 {
+    // We're gonna replace the dictionary properties with json objects
     public class GameAgent
     {
         public Dictionary<string, long> N = new Dictionary<string, long>();  // numeric values
@@ -14,10 +15,6 @@ namespace GAgent
         public Dictionary<string, string> S = new Dictionary<string, string>(); // string values
 
         public Dictionary<string, HashSet<string>> T = new Dictionary<string, HashSet<string>>(); // tagsets
-
-        public HashSet<string> Tags = new HashSet<string>();
-
-        public Object Params;
 
         public List<RoleJudgement> Morals = new List<RoleJudgement>();
         

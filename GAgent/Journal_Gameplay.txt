@@ -1,0 +1,13 @@
+Game loop like:
+- Set initial conditions.  Choose and prep the team
+- Run the event:
+	- Events occur based on team composition, environment, and inventory
+- Repeat
+
+Missions:
+- Find new agents
+- Find new missions.
+- Deploy on mission.
+
+Events:
+- Promotion / Demotion

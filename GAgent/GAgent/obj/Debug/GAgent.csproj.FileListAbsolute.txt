@@ -11,8 +11,6 @@ C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\EntityLibrar
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\GAgent.exe.config
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\GAgent.exe
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\GAgent.pdb
-C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.exe
-C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.pdb
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.AppContext.dll
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Collections.Immutable.dll
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Console.dll
@@ -32,4 +30,6 @@ C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Xml.X
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Xml.XPath.XDocument.dll
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Collections.Immutable.xml
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\bin\Debug\System.Reflection.Metadata.xml
+C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.exe
+C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.pdb
 C:\Users\sawad\Documents\GitHub\AgentEngine\GAgent\GAgent\obj\Debug\GAgent.csprojResolveAssemblyReference.cache

@@ -11,7 +11,8 @@ namespace GAgent.Judgements
 
         public static List<RoleJudgement> Judgements = new List<RoleJudgement>()
         {
-            // this might benefit from a selector function, like the one we're using in conditions
+            // this might benefit from a selector function, like the one we're using in conditions.
+            // Also, the Predicate is basically a condition to be satisfied.
             new RoleJudgement()
             {
                 Role = "Friendly",

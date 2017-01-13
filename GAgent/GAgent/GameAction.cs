@@ -8,74 +8,15 @@ namespace GAgent
 {
     public delegate string EventTextDelegate(GameWorld world);
 
-    public struct recursiveDict
-    {
-        public Dictionary<string, recursiveDict> P; // for properties
-        public List<recursiveDict> L; // for lists of properties
-        public Dictionary<string, double> N; // for numeric values
-        public Dictionary<string, string> S; // for string values
-    }
-
-    // Well, I guess this could be my database?
-    // Honestly, I should just use JSON as a store then.  Easy to manipulate and store
-    public class recursiveDictTester
-    {
-        public recursiveDictTester()
-        {
-            recursiveDict myRD = new recursiveDict()
-            {
-                L =
-                {
-                    new recursiveDict()
-                    {
-                        S = { {"StringProperty1", "stringvalue1" } }
-                    },
-                    new recursiveDict()
-                    {
-                        N = { {"Numberprop1", 1 } }
-                    },
-                },
-                S =
-                {
-                    {"Name", "AgentName" },
-                },
-                N =
-                {
-                    {"Age", 38 }
-                },
-                P = 
-                {
-                    { "Tools", new recursiveDict()
-                        {
-                            S =
-                            {
-                                { "ToolName", "Hammer" }
-                            },
-                            N =
-                            {
-                                { "ToolWeight", 200 }
-                            }
-                        }
-                    }
-                }
-            };
-            var myToolWeight = myRD.P["Tools"].N["ToolWeight"];
-        }
-    }
-
     public struct GameActionParams
     {
         public string ID;
-        public HashSet<string> Tags;
         public EventTextDelegate Description;
         public EventTextDelegate Detail;
         public Dictionary<string, GameAgent> AgentParams;
-        //public Dictionary<string, long> NumericParams;
-        //public Dictionary<string, string> StringParams;
-        public object Parameters;
+        public RecursiveDict Parameters;
         public bool ShowOutcomes;
         public Condition ValidityCondition;
-        public bool Debug;
     }
     /*
      * The idea behind a game action is that it's selectable.  It's available based on the state of the game world, and representes a decision point 
@@ -91,35 +32,27 @@ namespace GAgent
         //public Dictionary<string, string> S = new Dictionary<string, string>(); // string values, used as parameters to be accessed by conditions and outcomes
 
         private string _id;
-        private HashSet<string> _tags;                      // I guess these would help if we want to have certain groups of actions be valid by tag?  I haven't used this yet?
         private EventTextDelegate _description;             // This is what is displayed at the selection stage.
         private EventTextDelegate _detail;                  // When an action is selected, before it is confirmed, more detail is provided here.
         private Dictionary<string, GameAgent> _agentParams; // When an action is selected, certain agents might be under consideration
-        private object _Params;
+        private RecursiveDict _Params;
         private bool _showoutcomes;
         private Condition _validitycondition;
-        private bool _debug = false;
 
         public GameAction(GameActionParams g)
         {
             _id = g.ID;
-            _tags = g.Tags;
             _description = g.Description;
             _detail = g.Detail;
             _agentParams = g.AgentParams;
             _showoutcomes = g.ShowOutcomes;
             _validitycondition = g.ValidityCondition;
-            //S = g.StringParams;
-            //N = g.NumericParams;
-            _debug = g.Debug;
             Params = g.Parameters;
         }
         
         public bool IsValid(GameWorld world)
         {
-            log("Action '" + Description(world) + "':");
             bool result = _validitycondition.IsValid(world);
-            log("Action '" + Description(world) + "': " + (result ? " - TRUE " : " - FALSE "));
             return result;
         }
 
@@ -133,14 +66,10 @@ namespace GAgent
             get { return _id; }
         }
 
-        public object Params
+        public RecursiveDict Params
         {
             get { return _Params; }
             set { _Params = value; }
-        }
-        public void log(string message)
-        {
-            if (_debug) Console.WriteLine(message);
         }
 
         public string ListOutcomes(GameWorld world)
@@ -170,11 +99,6 @@ namespace GAgent
              *  the world performed, we need to ensure that no further outcomes are valid and require performing.
              */
             GameOutcome[] validOutcomes = world.AllGameOutcomes.Where(o => o.IsValid(world)).ToArray();
-            log("Current valid outcomes: ");
-            foreach (var o in validOutcomes)
-            {
-                log(" - " + o.GetDescription(world));
-            }
             StringBuilder result = new StringBuilder();
             while(validOutcomes.Length > 0)
             {
@@ -184,24 +108,13 @@ namespace GAgent
                 GameOutcome selected = validOutcomes[world.RND.Next(validOutcomes.Length)];
 
                 // The outcome is performed.  This is what actually alters the gameworld state.
-                result.AppendLine(selected.PerformOutcome(ref world));
+                string outcome = selected.PerformOutcome(ref world);
+                Console.WriteLine(outcome);
+                Console.ReadKey();
+                result.AppendLine(outcome);
 
-                // logging crap.  move this to a dedicated logger
-                log("Current outcome log: ");
-                log(result.ToString());
-                
-                // Determine 
+                // Determine any additional outcomes
                 validOutcomes = world.AllGameOutcomes.Where(o => o.IsValid(world)).ToArray();
-                
-                log("New potential outcomes: ");
-                if(validOutcomes.Length == 0)
-                {
-                    log("No further outcomes for this event.  Continuing to next game action.");
-                }
-                else foreach (var o in validOutcomes)
-                {
-                    log(" - " + o.GetDescription(world));
-                }
             }
             return result.ToString();
         }

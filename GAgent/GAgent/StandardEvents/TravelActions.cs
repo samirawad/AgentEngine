@@ -38,15 +38,15 @@ namespace GAgent.StandardEvents
             playerSelector,
             (selector, world) =>
             {
-                // player is travelling if the current action contains a destination parameter
-                // trying dynamic objects.  Dont actually like this.
-
                 bool result = false;
+                if (selector["player"] == null) return false;
+                // This is kinda ugly as sin.
+                // If there is a current action, and it has parameters, then the condition is true if there is a 'distination' parameter
                 if (world.CurrentAction != null)
-                    if (world.CurrentAction.Params != null)
-                        result = (world.CurrentAction.Params as dynamic).Destination != null;
+                    if (!world.CurrentAction.Params.Equals(null))
+                        result = world.CurrentAction.Params.S != null ? world.CurrentAction.Params.S.ContainsKey("destination") : false;
                 return result;
-            },true);
+            });
 
         public static Condition selectDestination = new Condition(
             "condition_travelselected", "player is selecting a destination",
@@ -86,19 +86,28 @@ namespace GAgent.StandardEvents
                 ID = "action_travel_dungeon",
                 Description = w => {return "Travel to the dungeon";},
                 ValidityCondition = selectDestination,
-                Parameters = new { Destination = "dungeon"}
+                Parameters = new RecursiveDict()
+                {
+                    S = new Dictionary<string, string> { {"destination", "dungeon" }}
+                }
            }),
            new GameAction(new GameActionParams(){
                 ID = "action_travel_temple",
                 Description = w => {return "Travel to the temple";},
                 ValidityCondition = selectDestination,
-                Parameters = new { Destination = "temple"}
+                Parameters =  new RecursiveDict()
+                {
+                    S = new Dictionary<string, string> { {"destination", "temple" }}
+                }
            }),
            new GameAction(new GameActionParams(){
                 ID = "action_travel_market",
                 Description = w => {return "Travel to the market";},
                 ValidityCondition = selectDestination,
-                Parameters = new { Destination = "market"}
+                Parameters = new RecursiveDict()
+                {
+                    S = new Dictionary<string, string> { {"destination", "market" }}
+                }
            })
 
         };
@@ -140,8 +149,20 @@ namespace GAgent.StandardEvents
                 DescriptionFunction = (world) => { return "The player continues on his journey"; },
                 ValidityCondition = isTravelling,
                 OutcomeFunction = (ref GameWorld world) => {
-                    string dest = (world.CurrentAction.Params as dynamic).Destination as string;
+                    string dest = world.CurrentAction.Params.S["destination"];
                     return "The player continues on his journey to: " + dest;
+                }
+            }),
+            // wow, so outcomes probably require selectors too?
+            new GameOutcome(new OutcomeParams(){
+                OutcomeID = "outcome_traveling2",
+                DescriptionFunction = (world) => { return "The player arrives at destination?"; },
+                ValidityCondition = isTravelling,
+                OutcomeFunction = (ref GameWorld world) => {
+                    string dest = world.CurrentAction.Params.S["destination"];
+                    world.AllAgents["player"].S["location"] = dest;
+                    world.AllAgents["player"].S.Remove("destination");
+                    return "Player arrives at: " + dest;
                 }
             })
 

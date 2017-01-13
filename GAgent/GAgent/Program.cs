@@ -58,7 +58,6 @@ namespace GAgent
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey(true);
                         WorldEngine.DoGameAction(WorldEngine.CurrentValidEvents.First().Key);
-                    
                     }  
                     else // There is probably something wrong.
                     {

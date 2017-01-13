@@ -19,6 +19,7 @@ namespace GAgent
 
         public Random RND = new Random();
 
+        // Every game turn, an action must be selected by the player.  We can reference it here.
         public GameAction CurrentAction = null;
 
         public GameOutcome CurrentOutcome = null;
@@ -57,9 +58,10 @@ namespace GAgent
 
             // 1. Initialize the world from the setup file
             // 2. Read all actions and outcomes
-
-            AllGameActions.AddRange(TravelActions.Actions);
+            Console.WriteLine("break here");
             AllGameOutcomes.AddRange(TravelActions.Outcomes);
+            AllGameActions.AddRange(TravelActions.Actions);
+            
         }
 
         public GameAgent GetAgentByID(string agentID)
@@ -125,6 +127,8 @@ namespace GAgent
         {
             CurrentAction = CurrentValidEvents[eventKey];
             LastOutcomeLog = CurrentValidEvents[eventKey].SelectOutcome(this);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
             return LastOutcomeLog;
         }
     }

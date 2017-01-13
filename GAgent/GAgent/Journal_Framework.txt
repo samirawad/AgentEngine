@@ -43,6 +43,36 @@ We still need a way to save the logic for selectors and conditions in a script.
 I think I definitely COULD use JSON, but perhaps it's best that selectors, conditions, actions and outcomes are coded in c#. We probably need the benefit of syntax highlighting and 
 static typechecking.  I should consider how I could separate the engine from the game, while keeping both c#.
 
+Throwing out the idea of a JSON query language:
+The answer then is that the selectors, condtions, actions, and outcomes must be defined together with the model. Hardcoded in C#. 
+I need to stop looking for some kind of magic document database that doesn't exist.  
+Refactor it again, only this time separate the engine from the game model.  I need to make progress.
+
+Let's try factoring it out into separate projects under the same solution.
+ - make a new solution
+ - add a directory for journals
+ - factor out the engine from the model into separate projects.  
+
+ OR
+
+ We go all the way.  We define our model in JSON.  Our language would then need us to provide the ability to define
+  - Constructors,
+  - Selectors,
+  - Conditions,
+  - Actions,
+  - Outcomes,
+
+
+We need to be able to debug properly.  When an action or outcome is valid or invalid, we should be able to track the conditions which lead to it.
+
+The model, and the conditions which describe it's state must be defined together.  They're intrinsicly tied together because you can't query a system without access to it's definitions.
+
+The model, then, only consists of these things:
+ - the definitions
+ - the conditions and transformations
+
+
+
 
 
 
