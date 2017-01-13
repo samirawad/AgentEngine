@@ -56,12 +56,13 @@ Let's try factoring it out into separate projects under the same solution.
  OR
 
  We go all the way.  We define our model in JSON.  Our language would then need us to provide the ability to define
-  - Constructors,
+  - Constructors, (doesn't exist)
   - Selectors,
   - Conditions,
   - Actions,
   - Outcomes,
 
+All of these need to be able to reference/test/compare properties of the model or objects of the model
 
 We need to be able to debug properly.  When an action or outcome is valid or invalid, we should be able to track the conditions which lead to it.
 
@@ -69,7 +70,11 @@ The model, and the conditions which describe it's state must be defined together
 
 The model, then, only consists of these things:
  - the definitions
- - the conditions and transformations
+ - the conditions and transformations on that model?
+
+ If we really want to divorce the framework from the gameplay, we need to separate out the concepts of agent memories and judgements.
+ I feel that the history of occurences needs to remain.  The memories are just links to occurences, and judgements are functions which act on occurences and return a value -> a judgement
+
 
 
 

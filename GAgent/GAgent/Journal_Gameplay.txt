@@ -22,6 +22,9 @@ Breaking down event flow:
 
 Events:
 - Promotion / Demotion
+- Daily schedule
+	- We should be able to see a description of an agent's daily schedule, which should influence the kind of events which happen.
+	- The idea of a schedule could be abstract, just refereing to an agent's job, and how he spends his free time.
 
 Gameplay concepts:
 - I've already laid the groundwork for judgements and memories.  When agents are generated, they have a set of traits which will first be hidden.  When a (combination) of traits triggers

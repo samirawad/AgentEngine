@@ -26,26 +26,7 @@ namespace GAgent
 
         public bool IsValid(GameWorld w)
         {
-            // The validity of a condtion is either the validcondtion, or the operation on the subconditions.
-            // Console.WriteLine("Condtion '" + Description + "': ");
-            bool result;
-            if(Selector != null)
-            {
-                Dictionary<string, List<GameAgent>> selected = Selector.GetAgents(w);
-                if(selected == null)
-                {
-                    result = false;
-                }
-                else
-                {
-                    result = ValidCondition(Selector.GetAgents(w), w);
-                }
-            }
-            else
-            {
-                result = ValidCondition(null, w);
-            }
-            return result;
+            return Selector != null ? ValidCondition(Selector.GetAgents(w), w) : ValidCondition(null, w);
         }
     }
 }

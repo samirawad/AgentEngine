@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GAgent.Judgements
 {
+    /*
+     *  The difference between a judgement and an emotion is that the agent feels an emotion in response to an event, and forms a judgement of the other
+     *  Agents of the event.
+     */
     public static class DefaultJudgements // we can refactor this as a dictionary and move the judgement methods to gameentity
     {
 

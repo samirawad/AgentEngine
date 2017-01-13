@@ -18,11 +18,11 @@ namespace GAgent.StandardEvents
             });
 
         public static Condition playerDoesntExist = new Condition(
-            "condition_playerexists", "the player does not exist",
+            "init", "the player does not exist",
             playerSelector,
             (selector, world) =>
             {
-                return selector["player"] == null;
+                return selector["player"].All(s => s == null);
             });
 
         public static Condition notTravelling = new Condition(

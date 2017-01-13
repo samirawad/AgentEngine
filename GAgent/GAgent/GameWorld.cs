@@ -58,7 +58,6 @@ namespace GAgent
 
             // 1. Initialize the world from the setup file
             // 2. Read all actions and outcomes
-            Console.WriteLine("break here");
             AllGameOutcomes.AddRange(TravelActions.Outcomes);
             AllGameActions.AddRange(TravelActions.Actions);
             
