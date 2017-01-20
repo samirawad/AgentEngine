@@ -1,0 +1,174 @@
+﻿- My approach will be to try and describe the selections and conditions via JSON, then try and serialize them into classes I can run.
+- Conditions can have subconditions.
+- Perhaps we can build conditions from terms upwards.
+- Once we're able to describe
+
+- This is an example of a term we can use in a condtion.
+{
+	"TermName":"IsRich",
+	"Function":"MinimumPropertyValue",
+	"Parameters":{
+		"ToCheck":"Wealth",
+		"Minimum":1000
+	}
+}
+- Here is another term
+{
+	"TermName":"IsFemale",
+	"Function":"PropertyIs",
+	"Parameters":{
+		"ToCheck":"Gender",
+		"Value":"Female"
+	}
+}
+- Here's a third for good measure
+{
+	"TermName":"IsDivorced",
+	"Function":"PropertyIs",
+	"Parameters":{
+		"ToCheck":"MaritalStatus",
+		"Value":"Divorced"
+	}
+}
+- We can then combine terms into a condition
+{
+	"ConditionName":"RichLady",
+	"ConditionType":"AllMutBeTrue",
+	"Terms":[
+		"IsFemale","IsRich"
+	]
+}
+- Conditions can be of multiple types
+{
+	"ConditionName":"HasAWeapon",
+	"ConditionType":"AnyMustBeTrue",
+	"Terms":[
+		"HasAGun","HasASword","HasAnAttackDog"
+	]
+}
+- We should also be able to combine conditions.  Notice that we can combine both terms and conditions together.
+{
+	"ConditionName":"NotSaynSheAGoldDigga",
+	"ConditionType":"AllMustBeTrue",
+	"Terms":[
+		"RichLady","IsDivorced"
+	]
+}
+- The manner in which we combine conditions should be flexible.
+{
+	"ConditionName":"ReadyForRevenge",
+	"ConditionType":"AllMustBeTrue",
+	"Terms":[
+		"IsDivorced","HasWeapon"
+	]
+}
+
+- Conditions can then be used in selectors to collect agents, and to determine the validity of actions and outcomes.
+
+- These are some possible actions.
+{
+	"ActionName":"GoToTavern",
+	"ValidCondition":"PlayerReadyForTravel",
+	"Parameters":{
+		"destination":"tavern"
+	}
+}
+{
+	"ActionName":"GoToMarket",
+	"ValidCondition":"PlayerReadyForTravel",
+	"Parameters":{
+		"destination":"market"
+	}
+}
+{
+	"ActionName":"GoToTemple",
+	"ValidCondition":"PlayerReadyForTravel",
+	"Parameters":{
+		"destination":"temple"
+	}
+}
+- And the condition for the above action
+{
+	"ConditionName":"PlayerReadyForTravel",
+	"ConditionType":"AllMustBeTrue",
+	"Terms":[
+		"PlayerHasNoDestination"
+	]
+}
+- And the term for the above condtion
+{
+	"TermName":"PlayerHasNoDestination",
+	"Funtion":"AgentPropertyHasValue",
+	"Parameters":{
+		"AgentToCheck":"Player",
+		"PropertyToCheck":"Destination",
+		"ValueToCheck":"none"
+	}
+}
+- My first instinct is that outcomes are like the oposite of conditions?  We compose them out of terms which instead of reading values, set them?
+- Outcomes for the above actions
+{
+	"OutcomeName":"PlayerBeginsJourney",
+	"OutcomeCondtion":"PlayerSelectedDestination",
+	"OutcomeFunction":"SetProperty",
+	"Parameters":{
+		"PropteryToSet":"Destination",
+		"ValueToSet":"Property of the Action...."
+	}
+}
+{
+	"ConditionName":"PlayerSelectedDestination",
+	"ConditionType":"AnyMustBeTrue",
+	"Terms":[
+		"CurentActionIsGoToTemple",
+		"CurentActionIsGoToMarket",
+		"CurentActionIsGoToTavern",
+		"CurentActionIsGoToDungeon",
+	]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[PlayerExists]
+ - must_be_true: exists("player")
+
+ {
+	"Name":"RichPlayerExists",
+	"Conditions":[
+		{
+			"Condition":"MustBeTrue",
+			"Terms":[
+				"Function":"Exists",
+				"Parameters":[
+					{
+						"AgentName":"Player"
+					}
+				]
+			]
+		},
+		{
+			"Condition":"AtLeastOneMustBeTrue",
+			"Terms"
+		}
+	]
+ }
+

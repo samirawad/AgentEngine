@@ -129,7 +129,6 @@
     <Compile Include="GameOutcome.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecursiveDict.cs" />
     <Compile Include="StandardEvents\TravelActions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +142,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Journal_Framework.txt" />
-    <Content Include="Journal_Gameplay.txt" />
+    <Content Include="Notes\Conditions.txt" />
+    <Content Include="Notes\Framework.txt" />
+    <Content Include="Notes\Gameplay.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

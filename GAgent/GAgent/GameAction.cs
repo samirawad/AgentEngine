@@ -14,7 +14,7 @@ namespace GAgent
         public EventTextDelegate Description;
         public EventTextDelegate Detail;
         public Dictionary<string, GameAgent> AgentParams;
-        public RecursiveDict Parameters;
+        public GameDoc Parameters;
         public bool ShowOutcomes;
         public Condition ValidityCondition;
     }
@@ -35,7 +35,7 @@ namespace GAgent
         private EventTextDelegate _description;             // This is what is displayed at the selection stage.
         private EventTextDelegate _detail;                  // When an action is selected, before it is confirmed, more detail is provided here.
         private Dictionary<string, GameAgent> _agentParams; // When an action is selected, certain agents might be under consideration
-        private RecursiveDict _Params;
+        private GameDoc _Params;
         private bool _showoutcomes;
         private Condition _validitycondition;
 
@@ -66,7 +66,7 @@ namespace GAgent
             get { return _id; }
         }
 
-        public RecursiveDict Params
+        public GameDoc Params
         {
             get { return _Params; }
             set { _Params = value; }

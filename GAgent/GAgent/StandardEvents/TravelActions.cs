@@ -86,7 +86,7 @@ namespace GAgent.StandardEvents
                 ID = "action_travel_dungeon",
                 Description = w => {return "Travel to the dungeon";},
                 ValidityCondition = selectDestination,
-                Parameters = new RecursiveDict()
+                Parameters = new GameDoc()
                 {
                     S = new Dictionary<string, string> { {"destination", "dungeon" }}
                 }
@@ -95,7 +95,7 @@ namespace GAgent.StandardEvents
                 ID = "action_travel_temple",
                 Description = w => {return "Travel to the temple";},
                 ValidityCondition = selectDestination,
-                Parameters =  new RecursiveDict()
+                Parameters =  new GameDoc()
                 {
                     S = new Dictionary<string, string> { {"destination", "temple" }}
                 }
@@ -104,7 +104,7 @@ namespace GAgent.StandardEvents
                 ID = "action_travel_market",
                 Description = w => {return "Travel to the market";},
                 ValidityCondition = selectDestination,
-                Parameters = new RecursiveDict()
+                Parameters = new GameDoc()
                 {
                     S = new Dictionary<string, string> { {"destination", "market" }}
                 }
